@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 import { SUBJECTS } from '@/lib/constants';
 
 const allQuizzes = [
-  { id: 1, title: 'Af-Soomaali Grammar', subject: 'af-soomaali', questions: 20, time: 15, difficulty: 'medium', players: 234, icon: '📖' },
+  { id: 1, title: 'Somali Grammar', subject: 'somali', questions: 20, time: 15, difficulty: 'medium', players: 234, icon: '📖' },
   { id: 2, title: 'Algebra & Equations', subject: 'mathematics', questions: 25, time: 30, difficulty: 'hard', players: 189, icon: '📐' },
   { id: 3, title: 'Cell Biology Basics', subject: 'biology', questions: 15, time: 10, difficulty: 'easy', players: 312, icon: '🧬' },
   { id: 4, title: 'Chemical Bonding', subject: 'chemistry', questions: 20, time: 20, difficulty: 'medium', players: 198, icon: '⚗️' },

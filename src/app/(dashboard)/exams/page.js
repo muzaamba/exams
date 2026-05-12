@@ -7,7 +7,7 @@ import Badge from '@/components/ui/Badge';
 import { SUBJECTS } from '@/lib/constants';
 
 const exams = [
-  { id: 1, title: 'Af-Soomaali Form 4 Final 2024', subject: 'af-soomaali', grade: 'form4', year: 2024, marks: 100, duration: 120, sections: 4 },
+  { id: 1, title: 'Somali Form 4 Final 2024', subject: 'somali', grade: 'form4', year: 2024, marks: 100, duration: 120, sections: 4 },
   { id: 2, title: 'Mathematics Form 4 Final 2024', subject: 'mathematics', grade: 'form4', year: 2024, marks: 100, duration: 150, sections: 3 },
   { id: 3, title: 'Biology Grade 8 Final 2024', subject: 'biology', grade: 'grade8', year: 2024, marks: 80, duration: 90, sections: 3 },
   { id: 4, title: 'Chemistry Form 4 Mid-Year 2024', subject: 'chemistry', grade: 'form4', year: 2024, marks: 80, duration: 90, sections: 3 },

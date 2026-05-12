@@ -1,5 +1,5 @@
 export const SUBJECTS = [
-  { slug: 'af-soomaali', name: 'Af-Soomaali', icon: '📖', color: '#10B981', description: 'Somali Language & Literature' },
+  { slug: 'somali', name: 'Somali', icon: '📖', color: '#10B981', description: 'Somali Language & Literature' },
   { slug: 'mathematics', name: 'Mathematics', icon: '📐', color: '#6366F1', description: 'Algebra, Geometry & Statistics' },
   { slug: 'biology', name: 'Biology', icon: '🧬', color: '#22C55E', description: 'Life Sciences & Human Biology' },
   { slug: 'chemistry', name: 'Chemistry', icon: '⚗️', color: '#F59E0B', description: 'Chemical Reactions & Elements' },

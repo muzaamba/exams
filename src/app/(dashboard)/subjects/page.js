@@ -7,7 +7,7 @@ import { LinearProgress } from '@/components/ui/Progress';
 import { useState } from 'react';
 
 const subjectStats = {
-  'af-soomaali': { exams: 15, quizzes: 48, mastery: 65 },
+  'somali': { exams: 15, quizzes: 48, mastery: 65 },
   'mathematics': { exams: 18, quizzes: 62, mastery: 45 },
   'biology': { exams: 12, quizzes: 38, mastery: 72 },
   'chemistry': { exams: 14, quizzes: 42, mastery: 38 },
