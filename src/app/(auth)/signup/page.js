@@ -29,6 +29,10 @@ export default function SignupPage() {
         grade,
       });
       if (authError) throw authError;
+      
+      // Wait a tiny bit for the DB trigger to finish
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       router.push('/dashboard');
     } catch (err) {
       setError(err.message || 'Signup failed');
