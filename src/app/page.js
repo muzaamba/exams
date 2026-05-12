@@ -5,6 +5,7 @@ import FeaturedSubjects from '@/components/home/FeaturedSubjects';
 import PopularQuizzes from '@/components/home/PopularQuizzes';
 import StatsSection from '@/components/home/StatsSection';
 import LeaderboardPreview from '@/components/home/LeaderboardPreview';
+import AdBanner from '@/components/ads/AdBanner';
 
 export default function HomePage() {
   return (
@@ -12,8 +13,10 @@ export default function HomePage() {
       <Navbar />
       <main>
         <Hero />
+        <AdBanner slot="home_top" />
         <FeaturedSubjects />
         <PopularQuizzes />
+        <AdBanner slot="home_middle" />
         <StatsSection />
         <LeaderboardPreview />
       </main>

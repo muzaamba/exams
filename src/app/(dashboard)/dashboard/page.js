@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { getGreeting, cn } from '@/lib/utils';
 import { SUBJECTS } from '@/lib/constants';
 import { useAuth } from '@/context/AuthContext';
+import AdBanner from '@/components/ads/AdBanner';
 
 // Mock data for demo
 const mockStats = {
@@ -259,6 +260,9 @@ export default function DashboardPage() {
           <span className="text-xs text-muted">More</span>
         </div>
       </Card>
+
+      {/* Optimized Ad Placement */}
+      <AdBanner slot="dashboard_bottom" />
     </div>
   );
 }
