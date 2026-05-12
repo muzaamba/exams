@@ -12,6 +12,11 @@ export function AuthProvider({ children }) {
   const supabase = createClient();
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     const getUser = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
