@@ -57,26 +57,29 @@ export default function PopularQuizzes() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
           {quizzes.length > 0 ? (
-            quizzes.map((quiz) => (
-              <Link key={quiz.id} href={`/quizzes/${quiz.id}`} className="glass-card p-5 group">
-                <div className="flex items-center justify-between mb-3">
-                  <Badge color="indigo">{quiz.subject}</Badge>
-                  <Badge color="blue">{quiz.grade}</Badge>
-                </div>
-                <h3 className="font-bold mb-3 group-hover:text-primary transition-colors flex items-center gap-2">
-                  <FileText size={18} className="text-primary" />
-                  {quiz.title}
-                </h3>
-                <div className="flex items-center gap-4 text-xs text-muted">
-                  <span className="flex items-center gap-1">
-                    <Clock size={12} /> {quiz.duration}min
-                  </span>
-                  <span className="flex items-center gap-1 uppercase tracking-wider font-bold">
-                    {quiz.year}
-                  </span>
-                </div>
-              </Link>
-            ))
+            quizzes.map((quiz) => {
+              const subject = SUBJECTS.find(s => s.slug === quiz.subject.toLowerCase()) || { name: quiz.subject, color: '#6366F1', icon: '📄' };
+              return (
+                <Link key={quiz.id} href={`/quizzes/${quiz.id}`} className="glass-card p-5 group">
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge color="indigo">{subject.name}</Badge>
+                    <Badge color="blue">{quiz.grade?.toUpperCase() || 'FORM 4'}</Badge>
+                  </div>
+                  <h3 className="font-bold mb-3 group-hover:text-primary transition-colors flex items-center gap-2 font-heading tracking-tight">
+                    <span className="text-xl">{subject.icon}</span>
+                    {quiz.title}
+                  </h3>
+                  <div className="flex items-center gap-4 text-xs text-muted font-bold">
+                    <span className="flex items-center gap-1">
+                      <Clock size={12} /> {quiz.duration}min
+                    </span>
+                    <span className="flex items-center gap-1 uppercase tracking-widest text-primary">
+                      {quiz.year}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })
           ) : (
             <div className="col-span-full text-center py-10 text-muted">
               No exams found. Start by uploading some in the admin panel!
