@@ -6,82 +6,63 @@ import Button from '@/components/ui/Button';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden mesh-gradient">
-      {/* Floating Elements */}
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-background">
+      {/* Structural Accents */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 animate-float opacity-20">
-          <div className="w-20 h-20 rounded-2xl bg-primary/30 backdrop-blur-sm flex items-center justify-center text-3xl">📐</div>
-        </div>
-        <div className="absolute top-40 right-20 animate-float-delay opacity-20">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500/30 backdrop-blur-sm flex items-center justify-center text-2xl">🧬</div>
-        </div>
-        <div className="absolute bottom-32 left-1/4 animate-float opacity-15">
-          <div className="w-14 h-14 rounded-2xl bg-purple-500/30 backdrop-blur-sm flex items-center justify-center text-xl">⚡</div>
-        </div>
-        <div className="absolute bottom-20 right-1/3 animate-float-delay opacity-15">
-          <div className="w-18 h-18 rounded-2xl bg-emerald-500/30 backdrop-blur-sm flex items-center justify-center text-2xl">📖</div>
-        </div>
-        {/* Grid Pattern */}
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle, var(--muted) 1px, transparent 1px)',
-          backgroundSize: '50px 50px',
-          opacity: 0.05,
-        }} />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl" />
+        
+        {/* Subtle Geometric Lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.03]" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M0 100 L100 0 M0 50 L50 0 M50 100 L100 50" stroke="currentColor" strokeWidth="0.1" fill="none" />
+        </svg>
       </div>
 
-      <div className="container-main relative z-10 pt-24 pb-16">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 animate-fade-in">
-            <Sparkles size={14} className="text-primary" />
-            <span className="text-xs font-semibold text-primary">AI-Powered Exam Revision</span>
+      <div className="container-main relative z-10 pt-20">
+        <div className="max-w-5xl">
+          {/* Institutional Badge */}
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-surface border border-border mb-10 animate-fade-in shadow-sm">
+            <span className="flex h-2 w-2 rounded-full bg-primary" />
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted">Advanced Learning Systems</span>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-5xl sm:text-6xl md:text-8xl font-black font-heading tracking-tighter leading-[1.0] mb-8 animate-slide-up">
-            Master Your{' '}
-            <span className="gradient-text relative">
-              Exams
-              <span className="absolute -bottom-2 left-0 w-full h-1 bg-primary/30 blur-sm" />
-            </span>
-            <br className="hidden sm:block" />
-            with <span className="text-primary pulse-glow px-2 rounded-lg">AI</span>
+          {/* Precision Heading */}
+          <h1 className="text-6xl sm:text-7xl md:text-9xl font-extrabold font-heading tracking-tighter leading-[0.9] mb-10 animate-slide-up">
+            ELEVATE <br />
+            <span className="text-primary italic">YOUR</span> EXAMS.
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            The #1 exam revision platform for Somali students. AI-assisted past paper analysis,
-            smart quizzes, and personalized study plans for Form 4 & Grade 8.
+          {/* Professional Subtitle */}
+          <p className="text-xl sm:text-2xl text-muted max-w-2xl mb-12 leading-tight font-medium animate-slide-up" style={{ animationDelay: '0.1s' }}>
+            The definitive revision platform for Somali National Exams. 
+            Powered by precision AI to analyze past papers and predict future outcomes.
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          {/* Structured CTAs */}
+          <div className="flex flex-col sm:flex-row items-center gap-6 mb-20 animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <Link href="/signup">
-              <Button size="xl" icon={ArrowRight}>
-                Start Studying Free
-              </Button>
+              <button className="px-10 py-5 bg-primary text-background font-black text-sm uppercase tracking-widest rounded-none hover:bg-primary-light transition-all shadow-xl shadow-primary/20">
+                Get Started
+              </button>
             </Link>
             <Link href="/subjects">
-              <Button variant="secondary" size="xl">
-                Browse Subjects
-              </Button>
+              <button className="px-10 py-5 bg-transparent border-2 border-foreground text-foreground font-black text-sm uppercase tracking-widest rounded-none hover:bg-foreground hover:text-background transition-all">
+                Explore Subjects
+              </button>
             </Link>
           </div>
 
-          {/* Feature Pills */}
-          <div className="flex flex-wrap justify-center gap-3 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          {/* Metric Highlights */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-border pt-12 animate-slide-up" style={{ animationDelay: '0.3s' }}>
             {[
-              { icon: Brain, text: 'Smart Quizzes', color: 'text-primary' },
-              { icon: TrendingUp, text: 'Exam Trends', color: 'text-indigo-400' },
-              { icon: Zap, text: 'AI Analysis', color: 'text-yellow-400' },
-              { icon: Sparkles, text: 'Daily Revision', color: 'text-purple-400' },
-            ].map((item) => (
-              <div
-                key={item.text}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface/50 border border-border backdrop-blur-sm"
-              >
-                <item.icon size={14} className={item.color} />
-                <span className="text-xs font-medium">{item.text}</span>
+              { label: 'Success Rate', value: '94%' },
+              { label: 'Exams Analyzed', value: '5,000+' },
+              { label: 'Active Students', value: '12k' },
+              { label: 'AI Accuracy', value: '98.2%' },
+            ].map((metric) => (
+              <div key={metric.label} className="space-y-1">
+                <p className="text-3xl font-black font-heading text-foreground">{metric.value}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{metric.label}</p>
               </div>
             ))}
           </div>

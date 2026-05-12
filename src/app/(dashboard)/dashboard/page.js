@@ -69,70 +69,53 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-7xl">
-      {/* Header & Retention Stats */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <h1 className="text-3xl sm:text-4xl font-black font-heading tracking-tight">
-            {greeting}, <span className="gradient-text">{profile?.full_name || 'Student'}</span> 👋
+    <div className="space-y-8 max-w-7xl mx-auto">
+      {/* Premium Corporate Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border pb-8">
+        <div className="space-y-1">
+          <h1 className="text-4xl font-extrabold font-heading tracking-tight text-foreground">
+            {greeting}, {profile?.full_name || 'Student'}
           </h1>
-          <p className="text-muted mt-1 font-medium">Ready to dominate your exams today?</p>
+          <p className="text-muted font-medium">Professional Exam Readiness Dashboard</p>
         </div>
         
-        {/* XP / Level Progress */}
-        <div className="glass-card p-4 min-w-[280px] relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-            <Trophy size={60} />
-          </div>
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-500 font-bold text-sm">
-                Lvl {Math.floor((profile?.xp || 0) / 1000) + 1}
-              </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-muted">Next Level</span>
-            </div>
+        {/* Simplified Progress Section */}
+        <div className="bg-surface border border-border p-5 rounded-2xl min-w-[300px] shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-muted">Academic Level {Math.floor((profile?.xp || 0) / 1000) + 1}</span>
             <span className="text-xs font-bold text-primary">{(profile?.xp || 0) % 1000} / 1000 XP</span>
           </div>
-          <LinearProgress value={(profile?.xp || 0) % 10 + 20} color="var(--primary)" />
+          <div className="h-2 w-full bg-background rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-primary transition-all duration-1000 ease-out" 
+              style={{ width: `${((profile?.xp || 0) % 1000) / 10}%` }} 
+            />
+          </div>
         </div>
       </div>
 
-      {/* Hero Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard 
-          icon={Flame} 
-          label="Daily Streak" 
-          value={`${profile?.study_streak || 0} Days`} 
-          color="text-orange-500" 
-          bgColor="bg-orange-500/10" 
-          trend="+2" 
-          className="animate-fire-glow"
-        />
-        <StatCard icon={Brain} label="Quizzes" value={mockStats.quizzesCompleted} color="text-indigo-500" bgColor="bg-indigo-500/10" trend="+5" />
-        <StatCard icon={Trophy} label="Rank" value="#12" color="text-yellow-500" bgColor="bg-yellow-500/10" trend="Top 5%" />
-        <StatCard icon={Target} label="Accuracy" value={`${mockStats.correctRate}%`} color="text-emerald-500" bgColor="bg-emerald-500/10" trend="+3%" />
+      {/* Structured Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard icon={Flame} label="Active Streak" value={`${profile?.study_streak || 0} Days`} color="text-primary" bgColor="bg-primary/5" trend="Consistent" />
+        <StatCard icon={Brain} label="Total Assessments" value={mockStats.quizzesCompleted} color="text-accent" bgColor="bg-accent/5" trend="+5 this week" />
+        <StatCard icon={Trophy} label="Global Standing" value="#12" color="text-primary" bgColor="bg-primary/5" trend="Top Tier" />
+        <StatCard icon={Target} label="Success Rate" value={`${mockStats.correctRate}%`} color="text-success" bgColor="bg-success/5" trend="Improving" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Readiness Score */}
-        <Card hover={false} className="lg:col-span-1 border-t-4 border-t-primary relative overflow-hidden">
-          <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl" />
-          <h3 className="font-bold mb-4 flex items-center gap-2 font-heading">
-            <Target size={18} className="text-primary" />
-            Exam Readiness
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Readiness Analysis */}
+        <Card hover={false} className="lg:col-span-1 bg-surface border-border p-6 rounded-3xl">
+          <h3 className="font-bold mb-6 flex items-center gap-2 font-heading uppercase tracking-widest text-xs text-muted">
+            <Target size={16} className="text-primary" />
+            Performance Metrics
           </h3>
-          <div className="flex flex-col items-center py-4">
-            <CircularProgress value={mockStats.readinessScore} size={160} strokeWidth={12} color="var(--primary)">
+          <div className="flex flex-col items-center py-6">
+            <CircularProgress value={mockStats.readinessScore} size={180} strokeWidth={8} color="var(--primary)">
               <div className="text-center">
-                <span className="text-4xl font-black text-primary font-heading tracking-tight">{mockStats.readinessScore}%</span>
-                <p className="text-xs text-muted font-bold uppercase tracking-widest mt-1">Ready</p>
+                <span className="text-5xl font-extrabold text-foreground font-heading tracking-tighter">{mockStats.readinessScore}%</span>
+                <p className="text-[10px] text-muted font-black uppercase tracking-[0.2em] mt-2">Overall Score</p>
               </div>
             </CircularProgress>
-            <div className="mt-6 w-full p-3 rounded-xl bg-surface/50 border border-border/50 text-center">
-              <p className="text-xs font-medium text-muted">
-                You are in the <span className="text-primary font-bold">top 15%</span> of students this week!
-              </p>
-            </div>
           </div>
         </Card>
 
