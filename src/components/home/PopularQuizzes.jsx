@@ -1,19 +1,45 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Clock, Users, Zap } from 'lucide-react';
+import { Clock, Users, Zap, FileText } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
-
-const quizzes = [
-  { id: 1, title: 'Af-Soomaali Grammar Challenge', subject: 'Af-Soomaali', questions: 20, time: 15, difficulty: 'medium', players: 234, color: 'green' },
-  { id: 2, title: 'Mathematics Past Paper 2024', subject: 'Mathematics', questions: 30, time: 45, difficulty: 'hard', players: 189, color: 'indigo' },
-  { id: 3, title: 'Biology Cell Structure', subject: 'Biology', questions: 15, time: 10, difficulty: 'easy', players: 312, color: 'green' },
-  { id: 4, title: 'Physics Forces & Motion', subject: 'Physics', questions: 25, time: 30, difficulty: 'hard', players: 156, color: 'blue' },
-  { id: 5, title: 'English Reading Comprehension', subject: 'English', questions: 10, time: 20, difficulty: 'medium', players: 278, color: 'pink' },
-  { id: 6, title: 'Chemistry Elements Quiz', subject: 'Chemistry', questions: 20, time: 15, difficulty: 'medium', players: 198, color: 'yellow' },
-];
+import { createClient } from '@/lib/supabase/client';
 
 export default function PopularQuizzes() {
+  const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      if (!supabase) return;
+      const { data, error } = await supabase
+        .from('exams')
+        .select('*')
+        .eq('status', 'published')
+        .limit(6);
+      
+      if (data) setQuizzes(data);
+      setLoading(false);
+    };
+
+    fetchQuizzes();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-[var(--bg-secondary)]">
+        <div className="container-main">
+          <div className="h-10 w-64 bg-surface rounded mb-12 animate-pulse" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[1,2,3,4,5,6].map(i => <div key={i} className="h-40 bg-surface rounded-2xl animate-pulse" />)}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-20 bg-[var(--bg-secondary)]">
       <div className="container-main">
@@ -24,36 +50,38 @@ export default function PopularQuizzes() {
             </h2>
             <p className="text-muted">Test your knowledge with trending quizzes</p>
           </div>
-          <Link href="/quizzes" className="hidden sm:flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
+          <Link href="/exams" className="hidden sm:flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
             View All →
           </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
-          {quizzes.map((quiz) => (
-            <Link key={quiz.id} href={`/quizzes/${quiz.id}`} className="glass-card p-5 group">
-              <div className="flex items-center justify-between mb-3">
-                <Badge color={quiz.color}>{quiz.subject}</Badge>
-                <Badge color={quiz.difficulty === 'easy' ? 'green' : quiz.difficulty === 'medium' ? 'yellow' : 'red'}>
-                  {quiz.difficulty}
-                </Badge>
-              </div>
-              <h3 className="font-bold mb-3 group-hover:text-primary transition-colors">
-                {quiz.title}
-              </h3>
-              <div className="flex items-center gap-4 text-xs text-muted">
-                <span className="flex items-center gap-1">
-                  <Zap size={12} /> {quiz.questions} Qs
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock size={12} /> {quiz.time}min
-                </span>
-                <span className="flex items-center gap-1">
-                  <Users size={12} /> {quiz.players}
-                </span>
-              </div>
-            </Link>
-          ))}
+          {quizzes.length > 0 ? (
+            quizzes.map((quiz) => (
+              <Link key={quiz.id} href={`/quizzes/${quiz.id}`} className="glass-card p-5 group">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge color="indigo">{quiz.subject}</Badge>
+                  <Badge color="blue">{quiz.grade}</Badge>
+                </div>
+                <h3 className="font-bold mb-3 group-hover:text-primary transition-colors flex items-center gap-2">
+                  <FileText size={18} className="text-primary" />
+                  {quiz.title}
+                </h3>
+                <div className="flex items-center gap-4 text-xs text-muted">
+                  <span className="flex items-center gap-1">
+                    <Clock size={12} /> {quiz.duration}min
+                  </span>
+                  <span className="flex items-center gap-1 uppercase tracking-wider font-bold">
+                    {quiz.year}
+                  </span>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <div className="col-span-full text-center py-10 text-muted">
+              No exams found. Start by uploading some in the admin panel!
+            </div>
+          )}
         </div>
       </div>
     </section>

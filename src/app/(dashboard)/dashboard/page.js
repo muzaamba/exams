@@ -9,6 +9,7 @@ import Badge from '@/components/ui/Badge';
 import Link from 'next/link';
 import { getGreeting, cn } from '@/lib/utils';
 import { SUBJECTS } from '@/lib/constants';
+import { useAuth } from '@/context/AuthContext';
 
 // Mock data for demo
 const mockStats = {
@@ -51,25 +52,35 @@ const HEATMAP_DATA = [
 const HEATMAP_COLORS = ['bg-surface', 'bg-primary/20', 'bg-primary/50', 'bg-primary'];
 
 export default function DashboardPage() {
+  const { profile, loading: authLoading } = useAuth();
   const [greeting, setGreeting] = useState('Hello');
 
   useEffect(() => {
     setGreeting(getGreeting());
   }, []);
 
+  if (authLoading) {
+    return <div className="animate-pulse space-y-6">
+      <div className="h-8 w-64 bg-surface rounded-lg" />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[1,2,3,4].map(i => <div key={i} className="h-32 bg-surface rounded-2xl" />)}
+      </div>
+    </div>;
+  }
+
   return (
     <div className="space-y-6 max-w-7xl">
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold">{greeting}, <span className="gradient-text">Student</span> 👋</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold">{greeting}, <span className="gradient-text">{profile?.full_name || 'Student'}</span> 👋</h1>
         <p className="text-muted mt-1">Here&apos;s your revision overview for today</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Flame} label="Study Streak" value={`${mockStats.streak} Days`} color="text-orange-400" bgColor="bg-orange-500/10" trend="+2" />
+        <StatCard icon={Flame} label="Study Streak" value={`${profile?.study_streak || 0} Days`} color="text-orange-400" bgColor="bg-orange-500/10" trend="+2" />
         <StatCard icon={Brain} label="Quizzes Done" value={mockStats.quizzesCompleted} color="text-primary" bgColor="bg-primary/10" trend="+5" />
-        <StatCard icon={Trophy} label="Total XP" value={mockStats.totalXP.toLocaleString()} color="text-yellow-400" bgColor="bg-yellow-500/10" trend="+320" />
+        <StatCard icon={Trophy} label="Total XP" value={(profile?.xp || 0).toLocaleString()} color="text-yellow-400" bgColor="bg-yellow-500/10" trend="+320" />
         <StatCard icon={Target} label="Correct Rate" value={`${mockStats.correctRate}%`} color="text-indigo-400" bgColor="bg-indigo-500/10" trend="+3%" />
       </div>
 

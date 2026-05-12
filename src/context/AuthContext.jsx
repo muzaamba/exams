@@ -57,6 +57,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signUp = async (email, password, metadata = {}) => {
+    if (!supabase) return { data: null, error: new Error('Supabase not initialized') };
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -66,11 +67,13 @@ export function AuthProvider({ children }) {
   };
 
   const signIn = async (email, password) => {
+    if (!supabase) return { data: null, error: new Error('Supabase not initialized') };
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     return { data, error };
   };
 
   const signOut = async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
