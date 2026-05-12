@@ -26,15 +26,24 @@ export default function MobileNav() {
               key={link.href}
               href={link.href}
               className={cn(
-                'flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all min-w-[60px]',
+                'flex flex-col items-center gap-1 px-1 py-1 rounded-2xl transition-all duration-300 min-w-[64px]',
                 isActive
-                  ? 'text-primary'
+                  ? 'text-primary scale-110'
                   : 'text-muted hover:text-foreground'
               )}
             >
-              <link.icon size={20} />
-              <span className="text-[10px] font-medium">{link.label}</span>
-              {isActive && <div className="w-1 h-1 rounded-full bg-primary mt-0.5" />}
+              <div className={cn(
+                "p-1.5 rounded-xl transition-colors",
+                isActive ? "bg-primary/10 shadow-[0_0_20px_rgba(99,102,241,0.2)]" : ""
+              )}>
+                <link.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+              </div>
+              <span className={cn(
+                "text-[10px] font-bold uppercase tracking-widest transition-all",
+                isActive ? "opacity-100" : "opacity-70"
+              )}>
+                {link.label}
+              </span>
             </Link>
           );
         })}

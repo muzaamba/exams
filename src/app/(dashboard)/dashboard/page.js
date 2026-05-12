@@ -70,37 +70,69 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 max-w-7xl">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold">{greeting}, <span className="gradient-text">{profile?.full_name || 'Student'}</span> 👋</h1>
-        <p className="text-muted mt-1">Here&apos;s your revision overview for today</p>
+      {/* Header & Retention Stats */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h1 className="text-3xl sm:text-4xl font-black font-heading tracking-tight">
+            {greeting}, <span className="gradient-text">{profile?.full_name || 'Student'}</span> 👋
+          </h1>
+          <p className="text-muted mt-1 font-medium">Ready to dominate your exams today?</p>
+        </div>
+        
+        {/* XP / Level Progress */}
+        <div className="glass-card p-4 min-w-[280px] relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+            <Trophy size={60} />
+          </div>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-500 font-bold text-sm">
+                Lvl {Math.floor((profile?.xp || 0) / 1000) + 1}
+              </div>
+              <span className="text-xs font-bold uppercase tracking-wider text-muted">Next Level</span>
+            </div>
+            <span className="text-xs font-bold text-primary">{(profile?.xp || 0) % 1000} / 1000 XP</span>
+          </div>
+          <LinearProgress value={(profile?.xp || 0) % 10 + 20} color="var(--primary)" />
+        </div>
       </div>
 
-      {/* Stats Grid */}
+      {/* Hero Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Flame} label="Study Streak" value={`${profile?.study_streak || 0} Days`} color="text-orange-400" bgColor="bg-orange-500/10" trend="+2" />
-        <StatCard icon={Brain} label="Quizzes Done" value={mockStats.quizzesCompleted} color="text-primary" bgColor="bg-primary/10" trend="+5" />
-        <StatCard icon={Trophy} label="Total XP" value={(profile?.xp || 0).toLocaleString()} color="text-yellow-400" bgColor="bg-yellow-500/10" trend="+320" />
-        <StatCard icon={Target} label="Correct Rate" value={`${mockStats.correctRate}%`} color="text-indigo-400" bgColor="bg-indigo-500/10" trend="+3%" />
+        <StatCard 
+          icon={Flame} 
+          label="Daily Streak" 
+          value={`${profile?.study_streak || 0} Days`} 
+          color="text-orange-500" 
+          bgColor="bg-orange-500/10" 
+          trend="+2" 
+          className="animate-fire-glow"
+        />
+        <StatCard icon={Brain} label="Quizzes" value={mockStats.quizzesCompleted} color="text-indigo-500" bgColor="bg-indigo-500/10" trend="+5" />
+        <StatCard icon={Trophy} label="Rank" value="#12" color="text-yellow-500" bgColor="bg-yellow-500/10" trend="Top 5%" />
+        <StatCard icon={Target} label="Accuracy" value={`${mockStats.correctRate}%`} color="text-emerald-500" bgColor="bg-emerald-500/10" trend="+3%" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Readiness Score */}
-        <Card hover={false} className="lg:col-span-1">
-          <h3 className="font-bold mb-4 flex items-center gap-2">
+        <Card hover={false} className="lg:col-span-1 border-t-4 border-t-primary relative overflow-hidden">
+          <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl" />
+          <h3 className="font-bold mb-4 flex items-center gap-2 font-heading">
             <Target size={18} className="text-primary" />
             Exam Readiness
           </h3>
           <div className="flex flex-col items-center py-4">
-            <CircularProgress value={mockStats.readinessScore} size={140} strokeWidth={10} color="var(--primary)">
+            <CircularProgress value={mockStats.readinessScore} size={160} strokeWidth={12} color="var(--primary)">
               <div className="text-center">
-                <span className="text-3xl font-black text-primary">{mockStats.readinessScore}%</span>
-                <p className="text-xs text-muted mt-1">Ready</p>
+                <span className="text-4xl font-black text-primary font-heading tracking-tight">{mockStats.readinessScore}%</span>
+                <p className="text-xs text-muted font-bold uppercase tracking-widest mt-1">Ready</p>
               </div>
             </CircularProgress>
-            <p className="text-sm text-muted mt-4 text-center">
-              Keep revising to improve your readiness score!
-            </p>
+            <div className="mt-6 w-full p-3 rounded-xl bg-surface/50 border border-border/50 text-center">
+              <p className="text-xs font-medium text-muted">
+                You are in the <span className="text-primary font-bold">top 15%</span> of students this week!
+              </p>
+            </div>
           </div>
         </Card>
 
@@ -248,22 +280,22 @@ export default function DashboardPage() {
   );
 }
 
-function StatCard({ icon: Icon, label, value, color, bgColor, trend }) {
+function StatCard({ icon: Icon, label, value, color, bgColor, trend, className }) {
   return (
-    <Card className="!p-5">
+    <Card className={cn("!p-5 border-b-2", className)} style={{ borderBottomColor: `var(--primary)` }}>
       <div className="flex items-center justify-between mb-3">
         <div className={`w-10 h-10 rounded-xl ${bgColor} flex items-center justify-center`}>
           <Icon size={20} className={color} />
         </div>
         {trend && (
-          <span className="text-xs font-semibold text-primary flex items-center gap-0.5">
-            <TrendingUp size={12} />
+          <span className="text-[10px] font-black uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full flex items-center gap-0.5">
+            <TrendingUp size={10} />
             {trend}
           </span>
         )}
       </div>
-      <p className="text-2xl font-black">{value}</p>
-      <p className="text-xs text-muted mt-1">{label}</p>
+      <p className="text-2xl font-black font-heading tracking-tight">{value}</p>
+      <p className="text-[11px] font-bold text-muted uppercase tracking-widest mt-1">{label}</p>
     </Card>
   );
 }

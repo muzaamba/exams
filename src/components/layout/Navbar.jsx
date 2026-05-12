@@ -19,13 +19,12 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border" style={{ background: 'var(--navbar-bg)', backdropFilter: 'blur(20px)' }}>
       <div className="container-main">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl animated-gradient flex items-center justify-center text-white font-black text-lg">
+            <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-black text-lg shadow-lg shadow-primary/20">
               Z
             </div>
-            <span className="text-xl font-bold tracking-tight">
-              <span className="gradient-text">Zeweno</span>
+            <span className="text-xl font-black tracking-tighter font-heading">
+              <span className="gradient-text">ZEWENO</span>
             </span>
           </Link>
 

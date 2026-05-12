@@ -38,11 +38,14 @@ export default function Hero() {
           </div>
 
           {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight leading-[1.1] mb-6 animate-slide-up">
-            Study{' '}
-            <span className="gradient-text">Smarter</span>,{' '}
+          <h1 className="text-5xl sm:text-6xl md:text-8xl font-black font-heading tracking-tighter leading-[1.0] mb-8 animate-slide-up">
+            Master Your{' '}
+            <span className="gradient-text relative">
+              Exams
+              <span className="absolute -bottom-2 left-0 w-full h-1 bg-primary/30 blur-sm" />
+            </span>
             <br className="hidden sm:block" />
-            Not Harder
+            with <span className="text-primary pulse-glow px-2 rounded-lg">AI</span>
           </h1>
 
           {/* Subtitle */}
