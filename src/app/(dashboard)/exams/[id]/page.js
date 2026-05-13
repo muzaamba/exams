@@ -23,6 +23,10 @@ export default function ExamDetailPage() {
   useEffect(() => {
     async function fetchExamDetails() {
       if (!id) return;
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       try {
         // Fetch Exam

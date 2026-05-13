@@ -17,6 +17,10 @@ export default function SubjectsPage() {
 
   useEffect(() => {
     async function fetchCounts() {
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
       try {
         const { data, error } = await supabase
           .from('exams')

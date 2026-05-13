@@ -18,6 +18,10 @@ export default function ExamsPage() {
 
   useEffect(() => {
     async function fetchExams() {
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       try {
         const { data, error } = await supabase
