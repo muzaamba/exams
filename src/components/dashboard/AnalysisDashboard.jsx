@@ -37,7 +37,15 @@ export default function AnalysisDashboard({ subject }) {
     </div>
   );
 
-  if (!data) return null;
+  if (!data || data.error) return (
+    <div className="flex flex-col items-center justify-center py-20 text-center glass-card border-dashed border-2">
+      <div className="w-16 h-16 rounded-full bg-surface flex items-center justify-center mb-4">
+        <Zap className="text-muted/30" size={32} />
+      </div>
+      <h3 className="font-bold text-lg text-muted">Analysis Generation in Progress</h3>
+      <p className="text-sm text-muted mt-2 max-w-xs mx-auto">AI is currently analyzing the latest exam patterns. Practice a paper to speed up the calibration for your profile.</p>
+    </div>
+  );
 
   return (
     <div className="space-y-6 animate-slide-up">
