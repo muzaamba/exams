@@ -3,13 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { BookOpen, Brain, FileText, TrendingUp, ArrowLeft, Play, Clock, Zap } from 'lucide-react';
+import { BookOpen, Brain, FileText, TrendingUp, ArrowLeft, Play, Clock, Zap, Loader2 } from 'lucide-react';
 import { SUBJECTS } from '@/lib/constants';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Badge, { DifficultyBadge } from '@/components/ui/Badge';
 import { CircularProgress, LinearProgress } from '@/components/ui/Progress';
 import AnalysisDashboard from '@/components/dashboard/AnalysisDashboard';
+import { useAuth } from '@/context/AuthContext';
+import { createClient } from '@/lib/supabase/client';
 
 export default function SubjectDetailPage() {
   const { slug } = useParams();
