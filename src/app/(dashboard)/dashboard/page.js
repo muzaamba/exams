@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { Flame, Brain, Trophy, Target, TrendingUp, BookOpen, Clock, Zap, Users, Play } from 'lucide-react';
+import { Flame, Brain, Trophy, Target, TrendingUp, BookOpen, Clock, Zap, Users, Play, Loader2 } from 'lucide-react';
 import { CircularProgress, LinearProgress } from '@/components/ui/Progress';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -11,12 +11,10 @@ import { getGreeting, cn } from '@/lib/utils';
 import { SUBJECTS } from '@/lib/constants';
 import { useAuth } from '@/context/AuthContext';
 import AdBanner from '@/components/ads/AdBanner';
+import { createClient } from '@/lib/supabase/client';
 
-// Mock data for demo
+// Mock data for demo (to be replaced by real user data later)
 const mockStats = {
-  streak: 7,
-  quizzesCompleted: 42,
-  totalXP: 2450,
   readinessScore: 73,
   questionsAnswered: 312,
   correctRate: 78,
@@ -55,18 +53,39 @@ const HEATMAP_COLORS = ['bg-surface', 'bg-primary/20', 'bg-primary/50', 'bg-prim
 export default function DashboardPage() {
   const { profile, loading: authLoading } = useAuth();
   const [greeting, setGreeting] = useState('Hello');
+  const [examCount, setExamCount] = useState(0);
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  const supabase = createClient();
 
   useEffect(() => {
     setGreeting(getGreeting());
+    
+    async function fetchStats() {
+      try {
+        const { count, error } = await supabase
+          .from('exams')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'published');
+        
+        if (!error) setExamCount(count || 0);
+      } catch (err) {
+        console.error('Error fetching dashboard stats:', err);
+      } finally {
+        setStatsLoading(false);
+      }
+    }
+
+    fetchStats();
   }, []);
 
   if (authLoading) {
-    return <div className="animate-pulse space-y-6">
-      <div className="h-8 w-64 bg-surface rounded-lg" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[1,2,3,4].map(i => <div key={i} className="h-32 bg-surface rounded-2xl" />)}
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <Loader2 className="animate-spin text-primary" size={48} />
+        <p className="text-muted font-medium">Preparing your professional dashboard...</p>
       </div>
-    </div>;
+    );
   }
 
   return (
@@ -98,7 +117,7 @@ export default function DashboardPage() {
       {/* Structured Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard icon={Flame} label="Active Streak" value={`${profile?.study_streak || 0} Days`} color="text-primary" bgColor="bg-primary/5" trend="Consistent" />
-        <StatCard icon={Brain} label="Total Assessments" value={mockStats.quizzesCompleted} color="text-accent" bgColor="bg-accent/5" trend="+5 this week" />
+        <StatCard icon={FileText} label="Available Exams" value={statsLoading ? '...' : examCount} color="text-accent" bgColor="bg-accent/5" trend="Real Data" />
         <StatCard icon={Trophy} label="Global Standing" value="#12" color="text-primary" bgColor="bg-primary/5" trend="Top Tier" />
         <StatCard icon={Target} label="Success Rate" value={`${mockStats.correctRate}%`} color="text-success" bgColor="bg-success/5" trend="Improving" />
       </div>
@@ -259,7 +278,7 @@ export default function DashboardPage() {
           </div>
           <span className="text-xs text-muted">More</span>
         </div>
-      </Card>
+      </div>
 
       {/* Optimized Ad Placement */}
       <AdBanner slot="dashboard_bottom" />
@@ -286,3 +305,4 @@ function StatCard({ icon: Icon, label, value, color, bgColor, trend, className }
     </Card>
   );
 }
+

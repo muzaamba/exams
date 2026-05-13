@@ -9,11 +9,11 @@ export default function FeaturedSubjects() {
     <section id="subjects" className="py-20">
       <div className="container-main">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-heading">
             Browse <span className="gradient-text">Subjects</span>
           </h2>
-          <p className="text-muted max-w-xl mx-auto">
-            9 subjects with past papers, quizzes, and AI-powered topic analysis for both Form 4 and Grade 8
+          <p className="text-muted max-w-xl mx-auto font-medium">
+            Complete curriculum coverage with real past papers, quizzes, and AI-powered analysis for Form 4 and Grade 8.
           </p>
         </div>
 
@@ -37,11 +37,11 @@ export default function FeaturedSubjects() {
                   </h3>
                   <p className="text-sm text-muted mb-3">{subject.description}</p>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs px-2 py-1 rounded-md bg-surface" style={{ color: subject.color }}>
-                      12 Exams
+                    <span className="text-xs px-2 py-1 rounded-md bg-surface font-bold" style={{ color: subject.color }}>
+                      National Exams
                     </span>
-                    <span className="text-xs px-2 py-1 rounded-md bg-surface text-muted">
-                      45 Quizzes
+                    <span className="text-xs px-2 py-1 rounded-md bg-surface text-muted font-bold">
+                      Practice Quizzes
                     </span>
                   </div>
                 </div>
@@ -54,3 +54,4 @@ export default function FeaturedSubjects() {
     </section>
   );
 }
+

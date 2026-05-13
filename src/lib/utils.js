@@ -88,6 +88,24 @@ export function formatDuration(minutes) {
 }
 
 /**
+ * Normalize subject slug from various database representations
+ */
+export function normalizeSubject(subject) {
+  if (!subject) return 'unknown';
+  const s = subject.toLowerCase().trim();
+  if (s.includes('soomaali')) return 'somali';
+  if (s.includes('math')) return 'mathematics';
+  if (s.includes('bio')) return 'biology';
+  if (s.includes('chem')) return 'chemistry';
+  if (s.includes('physic')) return 'physics';
+  if (s.includes('arab')) return 'arabic';
+  if (s.includes('eng')) return 'english';
+  if (s.includes('geo')) return 'geography';
+  if (s.includes('hist')) return 'history';
+  return s;
+}
+
+/**
  * Get greeting based on time of day
  */
 export function getGreeting() {
@@ -96,3 +114,4 @@ export function getGreeting() {
   if (hour < 17) return 'Good Afternoon';
   return 'Good Evening';
 }
+
