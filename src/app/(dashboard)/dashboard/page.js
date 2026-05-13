@@ -278,7 +278,7 @@ export default function DashboardPage() {
           </div>
           <span className="text-xs text-muted">More</span>
         </div>
-      </div>
+      </Card>
 
       {/* Optimized Ad Placement */}
       <AdBanner slot="dashboard_bottom" />
