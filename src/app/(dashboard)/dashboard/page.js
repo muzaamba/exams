@@ -205,28 +205,6 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Study Streak Heatmap */}
-      <Card hover={false}>
-        <h3 className="font-bold mb-4 flex items-center gap-2">
-          <Flame size={18} className="text-orange-400" />
-          Study Activity
-        </h3>
-        <div className="flex gap-1 flex-wrap">
-          {HEATMAP_DATA.map((level, i) => (
-            <div key={i} className={`w-3 h-3 rounded-sm ${HEATMAP_COLORS[level]} transition-colors hover:ring-1 hover:ring-primary/50`} title={`Day ${90 - i}`} />
-          ))}
-        </div>
-        <div className="flex items-center gap-4 mt-3">
-          <span className="text-xs text-muted">Less</span>
-          <div className="flex gap-1">
-            <div className="w-3 h-3 rounded-sm bg-surface" />
-            <div className="w-3 h-3 rounded-sm bg-primary/20" />
-            <div className="w-3 h-3 rounded-sm bg-primary/50" />
-            <div className="w-3 h-3 rounded-sm bg-primary" />
-          </div>
-          <span className="text-xs text-muted">More</span>
-        </div>
-      </Card>
 
       {/* Optimized Ad Placement */}
       <AdBanner slot="dashboard_bottom" />
