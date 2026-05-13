@@ -1,10 +1,36 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import { ArrowRight, Brain, Sparkles, TrendingUp, Zap } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
 export default function Hero() {
+  const [stats, setStats] = useState({ exams: 0, students: 0 });
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchHeroStats() {
+      if (!supabase) return;
+      try {
+        const { count: examCount } = await supabase.from('exams').select('*', { count: 'exact', head: true });
+        const { count: studentCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+        setStats({ exams: examCount || 0, students: studentCount || 0 });
+      } catch (err) {
+        console.error('Error fetching hero stats:', err);
+      }
+    }
+    fetchHeroStats();
+  }, [supabase]);
+
+  const metrics = [
+    { label: 'Success Rate', value: '94%' },
+    { label: 'Exams Analyzed', value: stats.exams.toLocaleString() },
+    { label: 'Active Students', value: stats.students.toLocaleString() },
+    { label: 'AI Accuracy', value: '98.2%' },
+  ];
+
   return (
     <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-background">
       {/* Structural Accents */}
@@ -54,12 +80,7 @@ export default function Hero() {
 
           {/* Metric Highlights */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-border pt-12 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-            {[
-              { label: 'Success Rate', value: '94%' },
-              { label: 'Exams Analyzed', value: '5,000+' },
-              { label: 'Active Students', value: '12k' },
-              { label: 'AI Accuracy', value: '98.2%' },
-            ].map((metric) => (
+            {metrics.map((metric) => (
               <div key={metric.label} className="space-y-1">
                 <p className="text-3xl font-black font-heading text-foreground">{metric.value}</p>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{metric.label}</p>

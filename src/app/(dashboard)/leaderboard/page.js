@@ -1,27 +1,36 @@
 'use client';
 
 import { useState } from 'react';
-import { Trophy, Medal, Flame, TrendingUp } from 'lucide-react';
+import { Trophy, Medal, Flame, TrendingUp, Loader2 } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
-
-const leaderboardData = [
-  { rank: 1, name: 'Abdirahman M.', xp: 4520, grade: 'Form 4', streak: 15, quizzes: 89, accuracy: 82 },
-  { rank: 2, name: 'Hodan A.', xp: 3890, grade: 'Grade 8', streak: 12, quizzes: 76, accuracy: 85 },
-  { rank: 3, name: 'Mohamed F.', xp: 3450, grade: 'Form 4', streak: 10, quizzes: 68, accuracy: 78 },
-  { rank: 4, name: 'Fadumo H.', xp: 3120, grade: 'Grade 8', streak: 8, quizzes: 62, accuracy: 90 },
-  { rank: 5, name: 'Ahmed O.', xp: 2980, grade: 'Form 4', streak: 7, quizzes: 55, accuracy: 75 },
-  { rank: 6, name: 'Nasra I.', xp: 2750, grade: 'Form 4', streak: 6, quizzes: 50, accuracy: 80 },
-  { rank: 7, name: 'Yusuf K.', xp: 2500, grade: 'Grade 8', streak: 5, quizzes: 48, accuracy: 72 },
-  { rank: 8, name: 'Amina D.', xp: 2300, grade: 'Form 4', streak: 4, quizzes: 42, accuracy: 88 },
-  { rank: 9, name: 'Hassan R.', xp: 2100, grade: 'Grade 8', streak: 3, quizzes: 38, accuracy: 76 },
-  { rank: 10, name: 'Sahra M.', xp: 1950, grade: 'Form 4', streak: 3, quizzes: 35, accuracy: 82 },
-];
-
-const tabs = ['All Time', 'This Week', 'This Month'];
+import { createClient } from '@/lib/supabase/client';
 
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState('All Time');
+  const [leaders, setLeaders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchLeaders() {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .order('xp', { ascending: false })
+          .limit(50);
+        
+        if (!error) setLeaders(data || []);
+      } catch (err) {
+        console.error('Error fetching leaders:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchLeaders();
+  }, [supabase]);
 
   const getRankStyle = (rank) => {
     if (rank === 1) return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
@@ -29,6 +38,9 @@ export default function LeaderboardPage() {
     if (rank === 3) return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
     return 'bg-surface text-muted border-border';
   };
+
+  const top3 = leaders.slice(0, 3);
+  const rest = leaders.slice(3);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -40,61 +52,68 @@ export default function LeaderboardPage() {
         <p className="text-muted">Top performers on Zeweno</p>
       </div>
 
-      {/* Top 3 Podium */}
-      <div className="grid grid-cols-3 gap-3 items-end">
-        {[leaderboardData[1], leaderboardData[0], leaderboardData[2]].map((player, i) => {
-          const heights = ['h-28', 'h-36', 'h-24'];
-          const medals = ['🥈', '🥇', '🥉'];
-          return (
-            <div key={player.rank} className="text-center">
-              <div className="text-3xl mb-2">{medals[i]}</div>
-              <p className="font-bold text-sm truncate">{player.name}</p>
-              <p className="text-xs text-primary font-bold">{player.xp.toLocaleString()} XP</p>
-              <div className={`${heights[i]} mt-2 rounded-t-xl bg-gradient-to-t from-primary/20 to-primary/5 border-t-2 border-primary/30 flex items-end justify-center pb-2`}>
-                <span className="text-xs text-muted">#{player.rank}</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Tabs */}
-      <div className="flex gap-1 bg-surface rounded-xl p-1">
-        {tabs.map((tab) => (
-          <button key={tab} onClick={() => setActiveTab(tab)}
-            className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-colors ${
-              activeTab === tab ? 'bg-primary/10 text-primary' : 'text-muted hover:text-foreground'
-            }`}>{tab}</button>
-        ))}
-      </div>
-
-      {/* Table */}
-      <Card hover={false} className="!p-2 overflow-hidden">
-        {leaderboardData.map((player) => (
-          <div key={player.rank} className={`flex items-center gap-4 p-4 rounded-xl transition-colors hover:bg-surface/50 ${player.rank <= 3 ? 'bg-primary/[0.02]' : ''}`}>
-            <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold border ${getRankStyle(player.rank)}`}>
-              {player.rank}
-            </div>
-            <div className="w-9 h-9 rounded-lg animated-gradient flex items-center justify-center text-white font-bold text-sm">
-              {player.name[0]}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm">{player.name}</p>
-              <div className="flex items-center gap-2 text-xs text-muted">
-                <span>{player.grade}</span>
-                <span>•</span>
-                <span className="flex items-center gap-0.5"><Flame size={10} className="text-orange-400" />{player.streak}d</span>
-                <span>•</span>
-                <span>{player.accuracy}% acc</span>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="font-bold text-sm text-primary">{player.xp.toLocaleString()}</p>
-              <p className="text-xs text-muted">XP</p>
-            </div>
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-20 gap-3">
+          <Loader2 className="animate-spin text-primary" size={32} />
+          <p className="text-muted text-sm font-medium">Calculating rankings...</p>
+        </div>
+      ) : leaders.length > 0 ? (
+        <>
+          {/* Top 3 Podium */}
+          <div className="grid grid-cols-3 gap-3 items-end">
+            {[top3[1], top3[0], top3[2]].map((player, i) => {
+              if (!player) return <div key={i} className="flex-1" />;
+              const heights = ['h-28', 'h-36', 'h-24'];
+              const medals = ['🥈', '🥇', '🥉'];
+              const actualRank = leaders.indexOf(player) + 1;
+              return (
+                <div key={player.id} className="text-center">
+                  <div className="text-3xl mb-2">{medals[i]}</div>
+                  <p className="font-bold text-sm truncate">{player.full_name || 'Student'}</p>
+                  <p className="text-xs text-primary font-bold">{(player.xp || 0).toLocaleString()} XP</p>
+                  <div className={`${heights[i]} mt-2 rounded-t-xl bg-gradient-to-t from-primary/20 to-primary/5 border-t-2 border-primary/30 flex items-end justify-center pb-2`}>
+                    <span className="text-xs text-muted">#{actualRank}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        ))}
-      </Card>
+
+          {/* Table */}
+          <Card hover={false} className="!p-2 overflow-hidden">
+            {leaders.map((player, i) => (
+              <div key={player.id} className={`flex items-center gap-4 p-4 rounded-xl transition-colors hover:bg-surface/50 ${i < 3 ? 'bg-primary/[0.02]' : ''}`}>
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold border ${getRankStyle(i + 1)}`}>
+                  {i + 1}
+                </div>
+                <div className="w-9 h-9 rounded-lg animated-gradient flex items-center justify-center text-white font-bold text-sm">
+                  {(player.full_name || player.email || 'S')[0].toUpperCase()}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-sm truncate">{player.full_name || 'Anonymous Student'}</p>
+                  <div className="flex items-center gap-2 text-xs text-muted">
+                    <span className="uppercase">{player.grade || 'Form 4'}</span>
+                    <span>•</span>
+                    <span className="flex items-center gap-0.5"><Flame size={10} className="text-orange-400" />{player.study_streak || 0}d</span>
+                    <span>•</span>
+                    <span>{player.accuracy || 0}% acc</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold text-sm text-primary">{(player.xp || 0).toLocaleString()}</p>
+                  <p className="text-xs text-muted">XP</p>
+                </div>
+              </div>
+            ))}
+          </Card>
+        </>
+      ) : (
+        <div className="text-center py-20 glass-card">
+          <Trophy className="mx-auto text-muted mb-4" size={48} />
+          <h3 className="font-bold text-lg">No Rankings Yet</h3>
+          <p className="text-sm text-muted">Be the first to earn XP and claim the top spot!</p>
+        </div>
+      )}
     </div>
   );
 }

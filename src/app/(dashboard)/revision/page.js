@@ -12,30 +12,12 @@ import { createClient } from '@/lib/supabase/client';
 
 const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-const revisionPlan = [
-  { day: 'Mon', subjects: ['Mathematics', 'Physics'], completed: true },
-  { day: 'Tue', subjects: ['Somali', 'Biology'], completed: true },
-  { day: 'Wed', subjects: ['Chemistry', 'English'], completed: false },
-  { day: 'Thu', subjects: ['Arabic', 'Geography'], completed: false },
-  { day: 'Fri', subjects: ['History', 'Mathematics'], completed: false },
-  { day: 'Sat', subjects: ['Full Practice Exam'], completed: false },
-  { day: 'Sun', subjects: ['Weak Topics Review'], completed: false },
-];
-
-const dailyGoals = [
-  { task: 'Complete 2 quizzes', done: true, xp: 20 },
-  { task: 'Revise 1 weak topic', done: true, xp: 15 },
-  { task: 'Read revision notes (30min)', done: false, xp: 25 },
-  { task: 'Practice 1 past paper section', done: false, xp: 30 },
-];
-
 export default function RevisionPage() {
   const { user } = useAuth();
   const [progressData, setProgressData] = useState({});
   const [loading, setLoading] = useState(true);
   
   const daysUntilExam = 45;
-  const completedGoals = dailyGoals.filter((g) => g.done).length;
   const supabase = createClient();
 
   useEffect(() => {
@@ -62,7 +44,7 @@ export default function RevisionPage() {
     }
 
     fetchProgress();
-  }, [user]);
+  }, [user, supabase]);
 
   return (
     <div className="max-w-6xl space-y-6">
@@ -87,43 +69,22 @@ export default function RevisionPage() {
             <h3 className="font-bold flex items-center gap-2">
               <Target size={18} className="text-primary" /> Today&apos;s Goals
             </h3>
-            <Badge color="green">{completedGoals}/{dailyGoals.length}</Badge>
+            <Badge color="blue">0/0</Badge>
           </div>
-          <LinearProgress value={completedGoals} max={dailyGoals.length} color="var(--primary)" className="mb-4" />
-          <div className="space-y-2">
-            {dailyGoals.map((goal, i) => (
-              <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border transition-colors ${
-                goal.done ? 'border-green-500/20 bg-green-500/5' : 'border-border hover:border-primary/30'
-              }`}>
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                  goal.done ? 'border-green-500 bg-green-500' : 'border-muted'
-                }`}>
-                  {goal.done && <CheckCircle size={14} className="text-white" />}
-                </div>
-                <span className={`flex-1 text-sm ${goal.done ? 'line-through text-muted' : 'font-medium'}`}>{goal.task}</span>
-                <Badge color="yellow">+{goal.xp} XP</Badge>
-              </div>
-            ))}
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="w-16 h-16 rounded-full bg-surface flex items-center justify-center mb-4 text-2xl">🎯</div>
+            <p className="font-bold">No goals set for today</p>
+            <p className="text-sm text-muted mt-1">Start a practice exam to automatically generate study goals.</p>
           </div>
         </Card>
 
         {/* Weekly Schedule */}
         <Card hover={false}>
           <h3 className="font-bold mb-4 flex items-center gap-2">
-            <Calendar size={18} className="text-indigo-400" /> This Week
+            <Calendar size={18} className="text-indigo-400" /> Weekly Plan
           </h3>
-          <div className="space-y-2">
-            {revisionPlan.map((day, i) => (
-              <div key={i} className={`p-3 rounded-xl border transition-colors ${
-                day.completed ? 'border-green-500/20 bg-green-500/5' : 'border-border'
-              }`}>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-semibold">{day.day}</span>
-                  {day.completed && <CheckCircle size={14} className="text-green-400" />}
-                </div>
-                <p className="text-xs text-muted">{day.subjects.join(', ')}</p>
-              </div>
-            ))}
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <p className="text-sm text-muted italic">Your personalized study schedule will appear here as you practice more subjects.</p>
           </div>
         </Card>
       </div>

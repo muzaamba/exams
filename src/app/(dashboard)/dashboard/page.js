@@ -13,47 +13,11 @@ import { useAuth } from '@/context/AuthContext';
 import AdBanner from '@/components/ads/AdBanner';
 import { createClient } from '@/lib/supabase/client';
 
-// Mock data for demo (to be replaced by real user data later)
-const mockStats = {
-  readinessScore: 73,
-  questionsAnswered: 312,
-  correctRate: 78,
-};
-
-const recentActivity = [
-  { type: 'quiz', subject: 'Mathematics', score: '85%', time: '2 hours ago', icon: Brain },
-  { type: 'revision', subject: 'Af-Soomaali', topic: 'Naxwe', time: '5 hours ago', icon: BookOpen },
-  { type: 'quiz', subject: 'Biology', score: '92%', time: '1 day ago', icon: Brain },
-  { type: 'exam', subject: 'Physics', topic: 'Past Paper 2024', time: '2 days ago', icon: Clock },
-];
-
-const weakTopics = [
-  { subject: 'Mathematics', topic: 'Quadratic Equations', mastery: 35, color: '#6366F1' },
-  { subject: 'Chemistry', topic: 'Organic Chemistry', mastery: 42, color: '#F59E0B' },
-  { subject: 'Physics', topic: 'Electromagnetic Waves', mastery: 48, color: '#3B82F6' },
-  { subject: 'English', topic: 'Essay Writing', mastery: 55, color: '#EC4899' },
-];
-
-const recommendedRevision = [
-  { subject: 'Mathematics', topic: 'Quadratic Equations', reason: 'Low mastery + High exam frequency', priority: 'high' },
-  { subject: 'Chemistry', topic: 'Periodic Table', reason: 'Not reviewed in 5 days', priority: 'medium' },
-  { subject: 'Af-Soomaali', topic: 'Maahmaah', reason: 'Appears in 80% of past papers', priority: 'high' },
-];
-
-// Generate deterministic heatmap data (seeded, not random)
-const HEATMAP_DATA = [
-  3,0,1,2,3,1,0,2,1,3,0,2,1,0,3,2,1,0,3,1,
-  2,0,1,3,2,0,1,2,3,1,0,2,3,1,0,2,1,3,0,2,
-  1,3,0,2,1,0,3,2,1,3,0,1,2,3,0,1,2,0,3,1,
-  2,1,3,0,2,1,0,3,2,1,3,0,1,2,0,3,1,2,0,1,
-  3,2,0,1,3,1,2,0,3,1
-];
-const HEATMAP_COLORS = ['bg-surface', 'bg-primary/20', 'bg-primary/50', 'bg-primary'];
-
 export default function DashboardPage() {
   const { profile, loading: authLoading } = useAuth();
   const [greeting, setGreeting] = useState('Hello');
   const [examCount, setExamCount] = useState(0);
+  const [globalStanding, setGlobalStanding] = useState('...');
   const [statsLoading, setStatsLoading] = useState(true);
 
   const supabase = createClient();
@@ -67,12 +31,23 @@ export default function DashboardPage() {
         return;
       }
       try {
-        const { count, error } = await supabase
+        // Fetch Exam Count
+        const { count: eCount } = await supabase
           .from('exams')
           .select('*', { count: 'exact', head: true })
           .eq('status', 'published');
         
-        if (!error) setExamCount(count || 0);
+        setExamCount(eCount || 0);
+
+        // Fetch Global Standing
+        if (profile) {
+          const { count: aheadCount } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true })
+            .gt('xp', profile.xp || 0);
+          
+          setGlobalStanding(`#${(aheadCount || 0) + 1}`);
+        }
       } catch (err) {
         console.error('Error fetching dashboard stats:', err);
       } finally {
@@ -80,8 +55,10 @@ export default function DashboardPage() {
       }
     }
 
-    fetchStats();
-  }, []);
+    if (!authLoading) {
+      fetchStats();
+    }
+  }, [authLoading, profile]);
 
   // Safety timeout: never stay stuck on loading for more than 3 seconds
   const [timedOut, setTimedOut] = useState(false);
@@ -129,8 +106,8 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard icon={Flame} label="Active Streak" value={`${profile?.study_streak || 0} Days`} color="text-primary" bgColor="bg-primary/5" trend="Consistent" />
         <StatCard icon={FileText} label="Available Exams" value={statsLoading ? '...' : examCount} color="text-accent" bgColor="bg-accent/5" trend="Real Data" />
-        <StatCard icon={Trophy} label="Global Standing" value="#12" color="text-primary" bgColor="bg-primary/5" trend="Top Tier" />
-        <StatCard icon={Target} label="Success Rate" value={`${mockStats.correctRate}%`} color="text-success" bgColor="bg-success/5" trend="Improving" />
+        <StatCard icon={Trophy} label="Global Standing" value={globalStanding} color="text-primary" bgColor="bg-primary/5" trend="Top Tier" />
+        <StatCard icon={Target} label="Questions Answered" value={profile?.questions_answered || 0} color="text-success" bgColor="bg-success/5" trend="Growing" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -141,77 +118,56 @@ export default function DashboardPage() {
             Performance Metrics
           </h3>
           <div className="flex flex-col items-center py-6">
-            <CircularProgress value={mockStats.readinessScore} size={180} strokeWidth={8} color="var(--primary)">
+            <CircularProgress value={profile?.accuracy || 0} size={180} strokeWidth={8} color="var(--primary)">
               <div className="text-center">
-                <span className="text-5xl font-extrabold text-foreground font-heading tracking-tighter">{mockStats.readinessScore}%</span>
-                <p className="text-[10px] text-muted font-black uppercase tracking-[0.2em] mt-2">Overall Score</p>
+                <span className="text-5xl font-extrabold text-foreground font-heading tracking-tighter">{profile?.accuracy || 0}%</span>
+                <p className="text-[10px] text-muted font-black uppercase tracking-[0.2em] mt-2">Accuracy</p>
               </div>
             </CircularProgress>
           </div>
         </Card>
 
-        {/* Weak Topics */}
+        {/* Info Card */}
         <Card hover={false} className="lg:col-span-2">
           <h3 className="font-bold mb-4 flex items-center gap-2">
-            <TrendingUp size={18} className="text-red-400" />
-            Topics to Improve
+            <TrendingUp size={18} className="text-primary" />
+            Study Progress
           </h3>
-          <div className="space-y-4">
-            {weakTopics.map((topic) => (
-              <div key={topic.topic} className="flex items-center gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm font-medium truncate">{topic.topic}</p>
-                    <span className="text-xs text-muted">{topic.mastery}%</span>
-                  </div>
-                  <LinearProgress value={topic.mastery} color={topic.color} />
-                  <p className="text-xs text-muted mt-1">{topic.subject}</p>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col items-center justify-center h-48 text-center px-6">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <Zap className="text-primary" size={32} />
+            </div>
+            <p className="font-bold text-lg">Start Practicing!</p>
+            <p className="text-sm text-muted mt-1">Complete your first quiz to see detailed topic analysis and AI recommendations.</p>
+            <Link href="/exams" className="mt-6">
+              <Button size="sm">Browse Exams</Button>
+            </Link>
           </div>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Activity */}
+        {/* Recent Activity placeholder */}
         <Card hover={false}>
           <h3 className="font-bold mb-4 flex items-center gap-2">
             <Clock size={18} className="text-indigo-400" />
             Recent Activity
           </h3>
-          <div className="space-y-1">
-            {recentActivity.map((item, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl hover:bg-surface/50 transition-colors">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <item.icon size={16} className="text-primary" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium">{item.subject}</p>
-                  <p className="text-xs text-muted">{item.score || item.topic}</p>
-                </div>
-                <span className="text-xs text-muted whitespace-nowrap">{item.time}</span>
-              </div>
-            ))}
+          <div className="flex flex-col items-center justify-center py-10 text-center">
+            <p className="text-sm text-muted">No recent activity found.</p>
+            <p className="text-xs text-muted/50 mt-1">Your practice sessions will appear here.</p>
           </div>
         </Card>
 
-        {/* AI Recommendations */}
+        {/* AI Recommendations placeholder */}
         <Card hover={false}>
           <h3 className="font-bold mb-4 flex items-center gap-2">
             <Zap size={18} className="text-yellow-400" />
             AI Recommendations
           </h3>
-          <div className="space-y-3">
-            {recommendedRevision.map((rec, i) => (
-              <div key={i} className="p-3 rounded-xl border border-border hover:border-primary/30 transition-colors">
-                <div className="flex items-center justify-between mb-1">
-                  <p className="text-sm font-semibold">{rec.topic}</p>
-                  <Badge color={rec.priority === 'high' ? 'red' : 'yellow'}>{rec.priority}</Badge>
-                </div>
-                <p className="text-xs text-muted">{rec.subject} • {rec.reason}</p>
-              </div>
-            ))}
+          <div className="flex flex-col items-center justify-center py-10 text-center">
+            <p className="text-sm text-muted">Analysis pending.</p>
+            <p className="text-xs text-muted/50 mt-1">We need more data to provide smart recommendations.</p>
           </div>
         </Card>
       </div>
@@ -236,34 +192,15 @@ export default function DashboardPage() {
           </div>
         </Card>
 
-        {/* Friends Online */}
+        {/* Friends Online - Hide mock friends */}
         <Card hover={false}>
           <h3 className="font-bold mb-4 flex items-center gap-2">
             <Users size={18} className="text-green-400" />
-            Friends Online
+            Friends
           </h3>
-          <div className="space-y-3">
-            {[
-              { name: 'Abdirahman M.', level: 15, status: 'Online' },
-              { name: 'Hodan A.', level: 12, status: 'Playing' }
-            ].map((friend, i) => (
-              <div key={i} className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg animated-gradient flex items-center justify-center text-white text-xs font-bold">
-                    {friend.name[0]}
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold">{friend.name}</p>
-                    <p className="text-[10px] text-muted">Level {friend.level}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className={cn("w-1.5 h-1.5 rounded-full", friend.status === 'Online' ? 'bg-green-500' : 'bg-primary')} />
-                  <span className="text-[10px] text-muted">{friend.status}</span>
-                </div>
-              </div>
-            ))}
-            <button className="w-full py-2 text-[10px] font-bold text-primary hover:underline">Find more friends</button>
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <p className="text-xs text-muted">Connect with other students to see their progress.</p>
+            <button className="mt-4 px-4 py-2 text-[10px] font-bold text-primary border border-primary/20 rounded-xl hover:bg-primary/5">Invite Friends</button>
           </div>
         </Card>
       </div>
