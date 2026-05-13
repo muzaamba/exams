@@ -30,9 +30,9 @@ const sampleQuizzes = [
 ];
 
 const sampleExams = [
-  { id: 1, title: 'Form 4 Final Exam 2024', year: 2024, marks: 100, duration: 120, sections: 4 },
+  { id: 1, title: 'Form 4 National Exam 2024', year: 2024, marks: 100, duration: 120, sections: 4 },
   { id: 2, title: 'Form 4 Mid-Year 2024', year: 2024, marks: 80, duration: 90, sections: 3 },
-  { id: 3, title: 'Form 4 Final Exam 2023', year: 2023, marks: 100, duration: 120, sections: 4 },
+  { id: 3, title: 'Form 4 National Exam 2023', year: 2023, marks: 100, duration: 120, sections: 4 },
   { id: 4, title: 'Form 4 Mock Exam 2023', year: 2023, marks: 100, duration: 120, sections: 4 },
 ];
 

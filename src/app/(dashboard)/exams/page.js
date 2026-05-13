@@ -73,6 +73,12 @@ export default function ExamsPage() {
   const handleDownload = async (e, exam) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Optimistic update
+    setExams(prev => prev.map(ex => 
+      ex.id === exam.id ? { ...ex, downloads: (ex.downloads || 0) + 1 } : ex
+    ));
+
     await import('@/lib/download-exam').then(m => m.downloadExamPaper(exam.id, exam.title));
   };
 

@@ -89,6 +89,15 @@ export default function ExamDetailPage() {
     }
   };
 
+  const handleDownload = async () => {
+    if (!exam) return;
+    
+    // Optimistic update
+    setExam(prev => ({ ...prev, downloads: (prev.downloads || 0) + 1 }));
+
+    await import('@/lib/download-exam').then(m => m.downloadExamPaper(exam.id, exam.title));
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
@@ -210,7 +219,7 @@ export default function ExamDetailPage() {
           size="lg" 
           className="w-full sm:w-auto px-12 h-14 text-lg font-black border-border/50" 
           icon={FileText}
-          onClick={() => import('@/lib/download-exam').then(m => m.downloadExamPaper(exam.id, exam.title))}
+          onClick={handleDownload}
         >
           Download Paper
         </Button>
