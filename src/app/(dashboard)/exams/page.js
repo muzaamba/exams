@@ -202,7 +202,7 @@ export default function ExamsPage() {
               onChange={(e) => setYearFilter(e.target.value)}
               className="px-4 py-2.5 rounded-xl bg-surface border border-border/50 text-sm font-bold cursor-pointer focus:ring-2 focus:ring-primary/20"
             >
-              <option value="all">Year Dropdown</option>
+              <option value="all">All Years</option>
               {[2025, 2024, 2023, 2022, 2021, 2020].map(y => <option key={y} value={y}>{y}</option>)}
             </select>
           </div>

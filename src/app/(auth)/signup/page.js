@@ -24,15 +24,14 @@ export default function SignupPage() {
     setError('');
     setLoading(true);
     try {
-      const { error: authError } = await signUp(email, password, {
+      const { data, error: authError } = await signUp(email, password, {
         full_name: fullName,
         grade,
       });
+      
       if (authError) throw authError;
-      
-      // Wait a tiny bit for the DB trigger to finish
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
+      // Successful signup
       router.push('/dashboard');
     } catch (err) {
       setError(err.message || 'Signup failed');

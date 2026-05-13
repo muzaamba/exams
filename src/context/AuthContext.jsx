@@ -45,13 +45,25 @@ export function AuthProvider({ children }) {
         setUser(currentUser);
         
         if (currentUser) {
-          const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', currentUser.id)
-            .single();
-          
-          if (!error) setProfile(data);
+          // If it's a SIGNED_UP event, we might need to wait for the trigger
+          if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'USER_UPDATED') {
+            const fetchProfile = async (retries = 3) => {
+              const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', currentUser.id)
+                .single();
+              
+              if (error && retries > 0) {
+                await new Promise(r => setTimeout(r, 1000));
+                return fetchProfile(retries - 1);
+              }
+              return { data, error };
+            };
+
+            const { data, error } = await fetchProfile();
+            if (!error) setProfile(data);
+          }
         } else {
           setProfile(null);
         }

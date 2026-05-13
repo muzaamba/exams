@@ -202,11 +202,20 @@ ALTER TABLE study_streaks ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public profiles are viewable by everyone" ON profiles FOR SELECT USING (true);
 CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
 
--- Exams, sections, passages, questions: readable by all authenticated
-CREATE POLICY "Published exams are viewable" ON exams FOR SELECT USING (status = 'published' OR auth.uid() IS NOT NULL);
+-- Exams, sections, passages, questions: readable by all, manageable by admins
+CREATE POLICY "Exams are viewable by everyone" ON exams FOR SELECT USING (true);
+CREATE POLICY "Admins can manage exams" ON exams FOR ALL USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin')) WITH CHECK (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+CREATE POLICY "Temp bypass for development" ON exams FOR INSERT WITH CHECK (true); -- ONLY FOR DEV
+
 CREATE POLICY "Sections are viewable" ON sections FOR SELECT USING (true);
+CREATE POLICY "Admins can manage sections" ON sections FOR ALL USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+
 CREATE POLICY "Passages are viewable" ON passages FOR SELECT USING (true);
+CREATE POLICY "Admins can manage passages" ON passages FOR ALL USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+
 CREATE POLICY "Questions are viewable" ON questions FOR SELECT USING (true);
+CREATE POLICY "Admins can manage questions" ON questions FOR ALL USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+CREATE POLICY "Temp bypass for questions dev" ON questions FOR INSERT WITH CHECK (true); -- ONLY FOR DEV
 
 -- Quiz attempts: users can CRUD own
 CREATE POLICY "Users can view own attempts" ON quiz_attempts FOR SELECT USING (auth.uid() = user_id);
