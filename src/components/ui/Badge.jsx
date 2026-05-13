@@ -12,6 +12,7 @@ const colorMap = {
   pink: 'bg-pink-500/15 text-pink-400 border-pink-500/20',
   orange: 'bg-orange-500/15 text-orange-400 border-orange-500/20',
   teal: 'bg-teal-500/15 text-teal-400 border-teal-500/20',
+  primary: 'bg-primary/15 text-primary border-primary/20',
 };
 
 export default function Badge({ children, color = 'green', className, ...props }) {

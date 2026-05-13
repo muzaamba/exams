@@ -3,7 +3,7 @@ import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Announcement from '@/components/layout/Announcement';
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata = {
   title: 'Zeweno — AI-Powered Exam Revision for Somali Students',

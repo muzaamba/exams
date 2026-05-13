@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Target, Calendar, CheckCircle, Clock, Plus, Zap, BookOpen, Loader2 } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -18,11 +18,11 @@ export default function RevisionPage() {
   const [loading, setLoading] = useState(true);
   
   const daysUntilExam = 45;
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     async function fetchProgress() {
-      if (!user) return;
+      if (!user || !supabase) return;
       try {
         const { data, error } = await supabase
           .from('revision_progress')

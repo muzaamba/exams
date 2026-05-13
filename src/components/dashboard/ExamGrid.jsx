@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { FileText, Download, Play, CheckCircle, Clock } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { FileText, Download, Play, CheckCircle, Clock, Award } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
@@ -11,10 +11,10 @@ const YEARS = [2025, 2024, 2023, 2022, 2021, 2020];
 
 export default function ExamGrid({ exams, subjectColor, onDownload }) {
   // Group exams by year
-  const examsByYear = exams.reduce((acc, exam) => {
+  const examsByYear = useMemo(() => (exams || []).reduce((acc, exam) => {
     acc[exam.year] = exam;
     return acc;
-  }, {});
+  }, {}), [exams]);
 
   const handleDownload = async (exam) => {
     if (onDownload) {
@@ -53,8 +53,8 @@ export default function ExamGrid({ exams, subjectColor, onDownload }) {
                 <>
                   <div>
                     <h4 className="font-bold text-sm truncate">{exam.title}</h4>
-                    <p className="text-[10px] text-muted font-bold uppercase tracking-widest mt-1">
-                      {exam.duration} MIN • {exam.total_marks} MARKS
+                    <p className="text-[10px] text-muted font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
+                      <Clock size={10} /> {exam.duration} MIN • <Award size={10} /> {exam.total_marks} MARKS • <Download size={10} /> {exam.downloads || 0} DOWNLOADS
                     </p>
                   </div>
                   <div className="flex gap-2">

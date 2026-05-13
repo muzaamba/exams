@@ -1,13 +1,13 @@
 'use client';
 
 import { Trophy, Medal, Award, Loader2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
 export default function LeaderboardPreview() {
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     async function fetchLeaders() {
