@@ -15,7 +15,10 @@ export default function PopularQuizzes() {
 
   useEffect(() => {
     const fetchQuizzes = async () => {
-      if (!supabase) return;
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
       const { data, error } = await supabase
         .from('exams')
         .select('*')
