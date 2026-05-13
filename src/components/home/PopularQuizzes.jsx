@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Clock, Users, Zap, FileText } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
+import { SUBJECTS } from '@/lib/constants';
 import { createClient } from '@/lib/supabase/client';
 
 export default function PopularQuizzes() {
