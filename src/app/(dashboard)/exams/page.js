@@ -7,6 +7,7 @@ import { SUBJECTS } from '@/lib/constants';
 import { createClient } from '@/lib/supabase/client';
 import { normalizeSubject } from '@/lib/utils';
 import ExamGrid from '@/components/dashboard/ExamGrid';
+import QuizSimulator from '@/components/dashboard/QuizSimulator';
 
 export default function ExamsPage() {
   const [exams, setExams] = useState([]);
@@ -14,6 +15,7 @@ export default function ExamsPage() {
   const [search, setSearch] = useState('');
   const [yearFilter, setYearFilter] = useState('all');
   const [selectedSubject, setSelectedSubject] = useState('all');
+  const [activeQuizId, setActiveQuizId] = useState(null);
 
   const supabase = useMemo(() => createClient(), []);
 
@@ -214,6 +216,11 @@ export default function ExamsPage() {
             </div>
             <p className="text-muted text-sm font-bold tracking-widest animate-pulse">RETRIVING DATA...</p>
           </div>
+        ) : activeQuizId ? (
+          <QuizSimulator 
+            examId={activeQuizId} 
+            onExit={() => setActiveQuizId(null)} 
+          />
         ) : (
           <>
             {selectedSubject !== 'all' ? (
@@ -254,9 +261,8 @@ export default function ExamsPage() {
                 {filteredExams.map((exam) => {
                   const sub = SUBJECTS.find((s) => s.slug === exam.subject);
                   return (
-                    <Link 
+                    <div 
                       key={exam.id} 
-                      href={`/exams/${exam.id}`} 
                       className="glass-card p-5 flex items-center gap-5 group hover:border-primary/40 transition-all active:scale-[0.99] hover:shadow-xl hover:shadow-primary/5"
                     >
                       <div className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center text-3xl shrink-0 transition-all group-hover:scale-110 shadow-lg"
@@ -286,6 +292,13 @@ export default function ExamsPage() {
                       </div>
                       <div className="flex gap-2 shrink-0">
                         <button 
+                          onClick={() => setActiveQuizId(exam.id)}
+                          className="w-10 h-10 flex items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500 hover:text-white transition-all shadow-sm"
+                          title="Start Quiz"
+                        >
+                          <Zap size={18} />
+                        </button>
+                        <button 
                           onClick={(e) => handleShare(e, exam)}
                           className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface border border-border hover:border-primary/50 hover:bg-primary/5 text-muted hover:text-primary transition-all shadow-sm"
                           title="Share with friends"
@@ -297,10 +310,10 @@ export default function ExamsPage() {
                           className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface border border-border group-hover:border-primary/50 group-hover:bg-primary/5 text-muted group-hover:text-primary transition-all shadow-sm"
                           title="Download Paper"
                         >
-                          <FileText size={20} />
+                          <Download size={18} />
                         </button>
                       </div>
-                    </Link>
+                    </div>
                   );
                 })}
               </div>

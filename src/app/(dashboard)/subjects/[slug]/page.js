@@ -15,6 +15,7 @@ import { createClient } from '@/lib/supabase/client';
 import { normalizeSubject } from '@/lib/utils';
 import { useMemo } from 'react';
 import ExamGrid from '@/components/dashboard/ExamGrid';
+import QuizSimulator from '@/components/dashboard/QuizSimulator';
 
 export default function SubjectDetailPage() {
   const { slug } = useParams();
@@ -22,6 +23,7 @@ export default function SubjectDetailPage() {
   const [activeTab, setActiveTab] = useState('Overview');
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeQuizId, setActiveQuizId] = useState(null);
   const subject = SUBJECTS.find((s) => s.slug === slug) || SUBJECTS[0];
   const supabase = useMemo(() => createClient(), []);
 
@@ -34,24 +36,17 @@ export default function SubjectDetailPage() {
       }
       setLoading(true);
       try {
-        // First try exact match (normalized)
-        let { data, error } = await supabase
+        // Fetch all published exams and filter by normalized subject
+        const { data, error } = await supabase
           .from('exams')
           .select('*')
-          .eq('subject', slug)
-          .eq('status', 'published');
+          .eq('status', 'published')
+          .order('year', { ascending: false });
 
-        // Fallback: ilike for any un-normalized records
-        if (!error && (!data || data.length === 0)) {
-          const { data: fallbackData, error: fallbackError } = await supabase
-            .from('exams')
-            .select('*')
-            .ilike('subject', `%${slug}%`)
-            .eq('status', 'published');
-          if (!fallbackError) data = fallbackData;
-        }
+        if (error) throw error;
 
-        if (!error) setExams(data || []);
+        const filtered = (data || []).filter(e => normalizeSubject(e.subject) === slug);
+        setExams(filtered);
       } catch (err) {
         console.error('Error fetching subject data:', err);
       } finally {
@@ -170,47 +165,61 @@ export default function SubjectDetailPage() {
             </div>
           )}
 
-          {activeTab === 'Quizzes' && (
+           {activeTab === 'Quizzes' && (
             <div className="space-y-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 bg-indigo-500/5 rounded-[2.5rem] border border-indigo-500/10">
-                <div>
-                  <h3 className="text-xl font-black flex items-center gap-2">
-                    <Zap className="text-indigo-400" size={24} />
-                    Interactive Smart Quizzes
-                  </h3>
-                  <p className="text-xs text-muted font-bold uppercase tracking-widest mt-1">Dynamic Tests generated from real National Exams</p>
-                </div>
-                <Badge color="indigo" className="w-fit">Beta</Badge>
-              </div>
-
-              {exams.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {exams.map((exam) => (
-                    <Card key={exam.id} className="p-6 flex flex-col justify-between border-2 border-border/50 hover:border-indigo-500/50 transition-all">
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-lg font-black">{exam.year} Quiz</span>
-                          <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center">
-                            <Zap size={16} className="text-indigo-400" />
-                          </div>
-                        </div>
-                        <h4 className="font-bold text-sm truncate">{exam.title} Simulator</h4>
-                        <p className="text-[10px] text-muted font-bold uppercase tracking-widest mt-1">
-                          {exam.duration} Min • Timed Practice
-                        </p>
-                      </div>
-                      <Link href={`/quizzes/${exam.id}`} className="mt-6">
-                        <Button size="sm" className="w-full bg-indigo-500 hover:bg-indigo-600" icon={Play}>Start Quiz</Button>
-                      </Link>
-                    </Card>
-                  ))}
-                </div>
+              {activeQuizId ? (
+                <QuizSimulator 
+                  examId={activeQuizId} 
+                  onExit={() => setActiveQuizId(null)} 
+                />
               ) : (
-                <div className="flex flex-col items-center justify-center py-20 text-center glass-card">
-                  <div className="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-6 text-3xl">🧩</div>
-                  <h3 className="font-bold text-xl">No Quizzes Available</h3>
-                  <p className="text-sm text-muted mt-2 max-w-sm font-medium">We are currently generating smart interactive quizzes for {subject.name}. Check back in a few days!</p>
-                </div>
+                <>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 bg-indigo-500/5 rounded-[2.5rem] border border-indigo-500/10">
+                    <div>
+                      <h3 className="text-xl font-black flex items-center gap-2">
+                        <Zap className="text-indigo-400" size={24} />
+                        Interactive Smart Quizzes
+                      </h3>
+                      <p className="text-xs text-muted font-bold uppercase tracking-widest mt-1">Real past papers converted into timed simulations</p>
+                    </div>
+                    <Badge color="indigo" className="w-fit">Beta</Badge>
+                  </div>
+
+                  {exams.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {exams.map((exam) => (
+                        <Card key={exam.id} className="p-6 flex flex-col justify-between border-2 border-border/50 hover:border-indigo-500/50 transition-all">
+                          <div>
+                            <div className="flex items-center justify-between mb-4">
+                              <span className="text-lg font-black">{exam.year} Quiz</span>
+                              <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center">
+                                <Zap size={16} className="text-indigo-400" />
+                              </div>
+                            </div>
+                            <h4 className="font-bold text-sm truncate">{exam.title}</h4>
+                            <p className="text-[10px] text-muted font-bold uppercase tracking-widest mt-1">
+                              {exam.duration} Min • Real Data
+                            </p>
+                          </div>
+                          <Button 
+                            size="sm" 
+                            className="mt-6 w-full bg-indigo-500 hover:bg-indigo-600" 
+                            icon={Play}
+                            onClick={() => setActiveQuizId(exam.id)}
+                          >
+                            Start Simulation
+                          </Button>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-20 text-center glass-card">
+                      <div className="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-6 text-3xl">🧩</div>
+                      <h3 className="font-bold text-xl">No Quizzes Available</h3>
+                      <p className="text-sm text-muted mt-2 max-w-sm font-medium">We are currently generating smart interactive quizzes for {subject.name}. Check back in a few days!</p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )}
