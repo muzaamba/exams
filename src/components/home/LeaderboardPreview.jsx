@@ -1,7 +1,5 @@
 'use client';
 
-import { Trophy, Medal, Award } from 'lucide-react';
-
 import { Trophy, Medal, Award, Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
