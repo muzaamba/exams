@@ -103,7 +103,8 @@ export function normalizeSubject(subject) {
   if (s.includes('geo')) return 'geography';
   if (s.includes('hist')) return 'history';
   if (s.includes('islamic') || s.includes('tarbiya') || s.includes('taariikhda islaamka')) return 'islamic_studies';
-  return s;
+  if (s.includes('business') || s.includes('maamulka') || s.includes('ganacsiga')) return 'business';
+  return s.replace(/\s+/g, '_');
 }
 
 /**

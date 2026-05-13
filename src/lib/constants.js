@@ -9,6 +9,7 @@ export const SUBJECTS = [
   { slug: 'geography', name: 'Geography', icon: '🗺️', color: '#14B8A6', description: 'Physical & Human Geography' },
   { slug: 'history', name: 'History', icon: '📜', color: '#F97316', description: 'Somali & World History' },
   { slug: 'islamic_studies', name: 'Islamic Studies', icon: '🕋', color: '#059669', description: 'Islamic Jurisprudence & Ethics' },
+  { slug: 'business', name: 'Business', icon: '💼', color: '#64748B', description: 'Business Studies & Economics' },
 ];
 
 export const GRADES = [

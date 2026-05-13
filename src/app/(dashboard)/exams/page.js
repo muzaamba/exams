@@ -179,9 +179,11 @@ export default function ExamsPage() {
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-border/50 pb-6">
           <h2 className="text-2xl font-black flex items-center gap-3">
             {selectedSubject === 'all' ? 'All National Exams' : `${SUBJECTS.find(s => s.slug === selectedSubject)?.name} Archive`}
-            <span className="text-sm font-bold text-muted bg-surface px-3 py-1 rounded-full border border-border/50">
-              {filteredExams.length} results
-            </span>
+            {!loading && (
+              <span className="text-sm font-bold text-muted bg-surface px-3 py-1 rounded-full border border-border/50">
+                {filteredExams.length} results
+              </span>
+            )}
           </h2>
           
           <div className="flex items-center gap-3 w-full sm:w-auto">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { BookOpen, Brain, FileText, TrendingUp, ArrowLeft, Play, Clock, Zap, Loader2, Download } from 'lucide-react';
 import { SUBJECTS } from '@/lib/constants';
@@ -19,8 +19,10 @@ import QuizSimulator from '@/components/dashboard/QuizSimulator';
 
 export default function SubjectDetailPage() {
   const { slug } = useParams();
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get('tab') || 'Overview';
   const { profile } = useAuth();
-  const [activeTab, setActiveTab] = useState('Overview');
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeQuizId, setActiveQuizId] = useState(null);

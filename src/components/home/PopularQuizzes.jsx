@@ -6,6 +6,7 @@ import { Clock, Users, Zap, FileText } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 import { SUBJECTS } from '@/lib/constants';
 import { createClient } from '@/lib/supabase/client';
+import { normalizeSubject } from '@/lib/utils';
 
 export default function PopularQuizzes() {
   const [quizzes, setQuizzes] = useState([]);
@@ -59,9 +60,10 @@ export default function PopularQuizzes() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
           {quizzes.length > 0 ? (
             quizzes.map((quiz) => {
-              const subject = SUBJECTS.find(s => s.slug === quiz.subject?.toLowerCase()) || { name: quiz.subject || 'Unknown', color: '#6366F1', icon: '📄' };
+              const slug = normalizeSubject(quiz.subject);
+              const subject = SUBJECTS.find(s => s.slug === slug) || { name: quiz.subject || 'Unknown', color: '#6366F1', icon: '📄' };
               return (
-                <Link key={quiz.id} href={`/quizzes/${quiz.id}`} className="glass-card p-5 group">
+                <Link key={quiz.id} href={`/subjects/${slug}?tab=Quizzes`} className="glass-card p-5 group">
                   <div className="flex items-center justify-between mb-3">
                     <Badge color="indigo">{subject.name}</Badge>
                     <Badge color="blue">{quiz.grade?.toUpperCase() || 'FORM 4'}</Badge>
