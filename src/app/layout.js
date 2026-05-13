@@ -2,6 +2,7 @@ import Script from 'next/script';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
+import Announcement from '@/components/layout/Announcement';
 
 export const metadata = {
   title: 'Zeweno — AI-Powered Exam Revision for Somali Students',
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen antialiased">
         <ThemeProvider>
           <AuthProvider>
+            <Announcement />
             {children}
           </AuthProvider>
         </ThemeProvider>

@@ -173,7 +173,12 @@ export default function ExamDetailPage() {
       </Card>
 
       <div className="flex justify-center pt-4 pb-10">
-        <Button size="lg" className="px-12 h-14 text-lg font-black shadow-xl shadow-primary/20" icon={Play}>
+        <Button 
+          size="lg" 
+          className="px-12 h-14 text-lg font-black shadow-xl shadow-primary/20" 
+          icon={Play}
+          onClick={() => router.push(`/quizzes/${id}`)}
+        >
           Start Full Exam Simulation
         </Button>
       </div>

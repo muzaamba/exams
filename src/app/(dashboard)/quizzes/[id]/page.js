@@ -7,39 +7,8 @@ import Button from '@/components/ui/Button';
 import { CircularProgress } from '@/components/ui/Progress';
 import { cn } from '@/lib/utils';
 
-const sampleQuestions = [
-  {
-    id: 1, question_text: 'Waa maxay macnaha erayga "Barwaaqo"?',
-    question_type: 'mcq', topic: 'Vocabulary',
-    option_a: 'Abaar', option_b: 'Nabadgelyo iyo barako', option_c: 'Dagaal', option_d: 'Safar',
-    correct_answer: 'B', explanation: 'Barwaaqo waa eray Soomaali ah oo macnaheedu yahay "nabadgelyo, barako, iyo nolol wanaagsan".',
-  },
-  {
-    id: 2, question_text: 'Solve: 2x + 5 = 15. What is x?',
-    question_type: 'mcq', topic: 'Algebra',
-    option_a: '3', option_b: '5', option_c: '7', option_d: '10',
-    correct_answer: 'B', explanation: '2x + 5 = 15 → 2x = 10 → x = 5',
-  },
-  {
-    id: 3, question_text: 'What is the powerhouse of the cell?',
-    question_type: 'mcq', topic: 'Cell Biology',
-    option_a: 'Nucleus', option_b: 'Ribosome', option_c: 'Mitochondria', option_d: 'Golgi body',
-    correct_answer: 'C', explanation: 'Mitochondria are known as the powerhouse of the cell because they generate most of the cell\'s ATP.',
-  },
-  {
-    id: 4, question_text: 'What is the chemical symbol for Gold?',
-    question_type: 'mcq', topic: 'Elements',
-    option_a: 'Go', option_b: 'Gd', option_c: 'Au', option_d: 'Ag',
-    correct_answer: 'C', explanation: 'Au comes from the Latin word "Aurum" meaning gold.',
-  },
-  {
-    id: 5, question_text: 'What is Newton\'s First Law of Motion?',
-    question_type: 'mcq', topic: 'Forces',
-    option_a: 'F = ma', option_b: 'Every action has equal and opposite reaction',
-    option_c: 'An object stays at rest or moves unless acted on by a force', option_d: 'Energy cannot be created or destroyed',
-    correct_answer: 'C', explanation: 'Newton\'s First Law (Law of Inertia) states that an object at rest stays at rest and an object in motion stays in motion unless acted upon by an external force.',
-  },
-];
+import { createClient } from '@/lib/supabase/client';
+import { useParams } from 'next/navigation';
 
 export default function QuizPlayerPage() {
   const router = useRouter();
@@ -50,13 +19,42 @@ export default function QuizPlayerPage() {
   const [timeLeft, setTimeLeft] = useState(600);
   const [quizDone, setQuizDone] = useState(false);
 
-  const questions = sampleQuestions;
-  const question = questions[currentQ];
-  const totalQuestions = questions.length;
+  const { id } = useParams();
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchQuestions() {
+      if (!id) return;
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('questions')
+          .select('*')
+          .eq('exam_id', id)
+          .in('question_type', ['mcq', 'vocabulary', 'grammar'])
+          .order('question_number', { ascending: true });
+
+        if (error) throw error;
+        
+        // Only use questions that have options for the quiz simulator
+        const validQuestions = (data || []).filter(q => q.option_a && q.option_b);
+        setQuestions(validQuestions);
+      } catch (err) {
+        console.error('Error fetching questions:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchQuestions();
+  }, [id]);
 
   // Timer
   useEffect(() => {
-    if (quizDone) return;
+    if (quizDone || questions.length === 0) return;
     const timer = setInterval(() => {
       setTimeLeft((t) => {
         if (t <= 1) { setQuizDone(true); clearInterval(timer); return 0; }
@@ -64,7 +62,29 @@ export default function QuizPlayerPage() {
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [quizDone]);
+  }, [quizDone, questions.length]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent" />
+        <p className="text-muted font-medium">Loading quiz questions...</p>
+      </div>
+    );
+  }
+
+  if (error || questions.length === 0) {
+    return (
+      <div className="max-w-xl mx-auto py-20 text-center space-y-4">
+        <h2 className="text-2xl font-bold">Unable to load quiz</h2>
+        <p className="text-muted">{error || 'This exam has no multiple choice questions available yet.'}</p>
+        <Button onClick={() => router.push('/exams')} variant="secondary">Back to Exams</Button>
+      </div>
+    );
+  }
+
+  const question = questions[currentQ];
+  const totalQuestions = questions.length;
 
   const formatTime = (s) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
 
@@ -90,7 +110,7 @@ export default function QuizPlayerPage() {
     }
   };
 
-  const score = questions.reduce((acc, q) => acc + (answers[q.id] === q.correct_answer ? 1 : 0), 0);
+  const score = questions.reduce((acc, q) => acc + (answers[q.id] === (q.correct_answer || '').toUpperCase() ? 1 : 0), 0);
   const percentage = Math.round((score / totalQuestions) * 100);
 
   if (quizDone) {
@@ -138,14 +158,14 @@ export default function QuizPlayerPage() {
           <div className="space-y-3">
             {questions.map((q, i) => {
               const userAnswer = answers[q.id];
-              const isCorrect = userAnswer === q.correct_answer;
+              const isCorrect = userAnswer === (q.correct_answer || '').toUpperCase();
               return (
                 <div key={q.id} className={`p-4 rounded-xl border ${isCorrect ? 'border-green-500/30 bg-green-500/5' : 'border-red-500/30 bg-red-500/5'}`}>
                   <div className="flex items-start gap-2">
                     {isCorrect ? <CheckCircle size={18} className="text-green-400 mt-0.5" /> : <XCircle size={18} className="text-red-400 mt-0.5" />}
                     <div>
                       <p className="text-sm font-medium">Q{i + 1}: {q.question_text}</p>
-                      <p className="text-xs text-muted mt-1">Your answer: {userAnswer || 'Skipped'} • Correct: {q.correct_answer}</p>
+                      <p className="text-xs text-muted mt-1">Your answer: {userAnswer || 'Skipped'} • Correct: {(q.correct_answer || '').toUpperCase()}</p>
                       <p className="text-xs text-primary mt-1">{q.explanation}</p>
                     </div>
                   </div>
@@ -163,7 +183,10 @@ export default function QuizPlayerPage() {
     { letter: 'B', text: question.option_b },
     { letter: 'C', text: question.option_c },
     { letter: 'D', text: question.option_d },
-  ];
+  ].filter(o => o.text); // Filter out empty options if any
+
+  // Ensure answer keys match correctly (e.g. "a", "b", "c", "d" from DB vs "A", "B", "C", "D")
+  const correctAnswerLetter = (question.correct_answer || '').toUpperCase();
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -192,7 +215,7 @@ export default function QuizPlayerPage() {
         <div className="space-y-3">
           {options.map((opt) => {
             const isSelected = answers[question.id] === opt.letter;
-            const isCorrect = opt.letter === question.correct_answer;
+            const isCorrect = opt.letter === correctAnswerLetter;
             let styles = 'border-border hover:border-primary/50 hover:bg-primary/5';
             if (revealed) {
               if (isCorrect) styles = 'border-green-500 bg-green-500/10';
