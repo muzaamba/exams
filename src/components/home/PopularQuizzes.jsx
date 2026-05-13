@@ -59,7 +59,7 @@ export default function PopularQuizzes() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
           {quizzes.length > 0 ? (
             quizzes.map((quiz) => {
-              const subject = SUBJECTS.find(s => s.slug === quiz.subject.toLowerCase()) || { name: quiz.subject, color: '#6366F1', icon: '📄' };
+              const subject = SUBJECTS.find(s => s.slug === quiz.subject?.toLowerCase()) || { name: quiz.subject || 'Unknown', color: '#6366F1', icon: '📄' };
               return (
                 <Link key={quiz.id} href={`/quizzes/${quiz.id}`} className="glass-card p-5 group">
                   <div className="flex items-center justify-between mb-3">

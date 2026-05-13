@@ -13,6 +13,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (!supabase) {
+      console.warn('Supabase client could not be initialized. Check your environment variables.');
       setLoading(false);
       return;
     }
@@ -39,18 +40,26 @@ export function AuthProvider({ children }) {
     getUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        const { data } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-        setProfile(data);
-      } else {
-        setProfile(null);
+      try {
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        
+        if (currentUser) {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', currentUser.id)
+            .single();
+          
+          if (!error) setProfile(data);
+        } else {
+          setProfile(null);
+        }
+      } catch (err) {
+        console.error('onAuthStateChange error:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => subscription.unsubscribe();

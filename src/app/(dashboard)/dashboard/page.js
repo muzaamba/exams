@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { Flame, Brain, Trophy, Target, TrendingUp, BookOpen, Clock, Zap, Users, Play, Loader2 } from 'lucide-react';
+import { Flame, Brain, Trophy, Target, TrendingUp, BookOpen, Clock, Zap, Users, Play, Loader2, FileText } from 'lucide-react';
 import { CircularProgress, LinearProgress } from '@/components/ui/Progress';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -62,6 +62,10 @@ export default function DashboardPage() {
     setGreeting(getGreeting());
     
     async function fetchStats() {
+      if (!supabase) {
+        setStatsLoading(false);
+        return;
+      }
       try {
         const { count, error } = await supabase
           .from('exams')
@@ -79,7 +83,14 @@ export default function DashboardPage() {
     fetchStats();
   }, []);
 
-  if (authLoading) {
+  // Safety timeout: never stay stuck on loading for more than 3 seconds
+  const [timedOut, setTimedOut] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setTimedOut(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (authLoading && !timedOut) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <Loader2 className="animate-spin text-primary" size={48} />
