@@ -3,6 +3,7 @@ import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Announcement from '@/components/layout/Announcement';
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata = {
   title: 'Zeweno — AI-Powered Exam Revision for Somali Students',
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
           <AuthProvider>
             <Announcement />
             {children}
+            <Analytics />
           </AuthProvider>
         </ThemeProvider>
       </body>
