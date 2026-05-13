@@ -172,15 +172,37 @@ export default function ExamDetailPage() {
         </div>
       </Card>
 
-      <div className="flex justify-center pt-4 pb-10">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4 pb-10">
         <Button 
           size="lg" 
-          className="px-12 h-14 text-lg font-black shadow-xl shadow-primary/20" 
+          className="w-full sm:w-auto px-12 h-14 text-lg font-black shadow-xl shadow-primary/20" 
           icon={Play}
           onClick={() => router.push(`/quizzes/${id}`)}
         >
-          Start Full Exam Simulation
+          Start Simulation
         </Button>
+        <Button 
+          variant="secondary"
+          size="lg" 
+          className="w-full sm:w-auto px-12 h-14 text-lg font-black border-border/50" 
+          icon={FileText}
+          onClick={() => import('@/lib/download-exam').then(m => m.downloadExamPaper(exam.id, exam.title))}
+        >
+          Download Paper
+        </Button>
+      </div>
+
+      {/* Stats Bar */}
+      <div className="flex items-center justify-center gap-8 py-6 border-t border-border/50">
+        <div className="text-center">
+          <p className="text-xl font-black text-foreground">{exam.downloads || 0}</p>
+          <p className="text-[10px] font-bold text-muted uppercase tracking-widest">Downloads</p>
+        </div>
+        <div className="w-px h-8 bg-border" />
+        <div className="text-center">
+          <p className="text-xl font-black text-foreground">1.2K</p>
+          <p className="text-[10px] font-bold text-muted uppercase tracking-widest">Practiced</p>
+        </div>
       </div>
     </div>
   );

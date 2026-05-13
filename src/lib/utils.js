@@ -102,6 +102,7 @@ export function normalizeSubject(subject) {
   if (s.includes('eng')) return 'english';
   if (s.includes('geo')) return 'geography';
   if (s.includes('hist')) return 'history';
+  if (s.includes('islamic') || s.includes('tarbiya') || s.includes('taariikhda islaamka')) return 'islamic_studies';
   return s;
 }
 

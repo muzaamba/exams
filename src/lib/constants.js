@@ -8,6 +8,7 @@ export const SUBJECTS = [
   { slug: 'english', name: 'English', icon: '🌍', color: '#EC4899', description: 'English Language & Comprehension' },
   { slug: 'geography', name: 'Geography', icon: '🗺️', color: '#14B8A6', description: 'Physical & Human Geography' },
   { slug: 'history', name: 'History', icon: '📜', color: '#F97316', description: 'Somali & World History' },
+  { slug: 'islamic_studies', name: 'Islamic Studies', icon: '🕋', color: '#059669', description: 'Islamic Jurisprudence & Ethics' },
 ];
 
 export const GRADES = [
