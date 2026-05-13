@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Clock, Award, FileText, Play, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Clock, Award, FileText, Play, Loader2, AlertCircle, Share2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Badge, { DifficultyBadge } from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
@@ -64,6 +64,30 @@ export default function ExamDetailPage() {
 
     fetchExamDetails();
   }, [id]);
+
+  const handleShare = async () => {
+    if (!exam) return;
+    const shareData = {
+      title: exam.title,
+      text: `Practice this national exam: ${exam.title} on Zeweno!`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error('Share failed:', err);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        alert('Link copied to clipboard!');
+      } catch (err) {
+        console.error('Clipboard failed:', err);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -189,6 +213,15 @@ export default function ExamDetailPage() {
           onClick={() => import('@/lib/download-exam').then(m => m.downloadExamPaper(exam.id, exam.title))}
         >
           Download Paper
+        </Button>
+        <Button 
+          variant="secondary"
+          size="lg" 
+          className="w-full sm:w-auto px-8 h-14 text-lg font-black border-border/50" 
+          icon={Share2}
+          onClick={handleShare}
+        >
+          Share
         </Button>
       </div>
 
