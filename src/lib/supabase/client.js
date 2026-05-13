@@ -2,7 +2,13 @@
 
 import { createBrowserClient } from '@supabase/ssr';
 
+// Singleton: only create ONE client instance for the entire app
+let client = null;
+
 export function createClient() {
+  // Return cached client if it exists
+  if (client) return client;
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -12,9 +18,6 @@ export function createClient() {
     return null;
   }
 
-  return createBrowserClient(url, key);
+  client = createBrowserClient(url, key);
+  return client;
 }
-
-// In Next.js, we should be careful about creating the client at the module level
-// if it depends on env vars that might be missing during static optimization.
-export const supabase = typeof window !== 'undefined' ? createClient() : null;

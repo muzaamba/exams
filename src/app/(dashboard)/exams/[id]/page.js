@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Clock, Award, FileText, Play, Loader2, AlertCircle, Share2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
@@ -18,7 +18,7 @@ export default function ExamDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     async function fetchExamDetails() {
@@ -67,7 +67,7 @@ export default function ExamDetailPage() {
     }
 
     fetchExamDetails();
-  }, [id]);
+  }, [id, supabase]);
 
   const handleShare = async () => {
     if (!exam) return;

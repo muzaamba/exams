@@ -18,6 +18,11 @@ export function AuthProvider({ children }) {
       return;
     }
 
+    // Safety timeout: never let auth loading block the app for more than 5 seconds
+    const safetyTimer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
     const getUser = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -74,7 +79,10 @@ export function AuthProvider({ children }) {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      clearTimeout(safetyTimer);
+      subscription.unsubscribe();
+    };
   }, [supabase]);
 
   const signUp = async (email, password, metadata = {}) => {

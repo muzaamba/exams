@@ -22,7 +22,10 @@ export default function RevisionPage() {
 
   useEffect(() => {
     async function fetchProgress() {
-      if (!user || !supabase) return;
+      if (!user || !supabase) {
+        setLoading(false);
+        return;
+      }
       try {
         const { data, error } = await supabase
           .from('revision_progress')

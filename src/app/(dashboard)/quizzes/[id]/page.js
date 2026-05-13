@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Clock, CheckCircle, XCircle, RotateCcw, Home, Trophy } from 'lucide-react';
 import Button from '@/components/ui/Button';
@@ -23,11 +23,14 @@ export default function QuizPlayerPage() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     async function fetchQuestions() {
-      if (!id) return;
+      if (!id || !supabase) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       try {
         const { data, error } = await supabase
@@ -50,7 +53,7 @@ export default function QuizPlayerPage() {
       }
     }
     fetchQuestions();
-  }, [id]);
+  }, [id, supabase]);
 
   // Timer
   useEffect(() => {
