@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Trophy, Medal, Flame, TrendingUp, Loader2 } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
@@ -10,7 +10,7 @@ export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState('All Time');
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     async function fetchLeaders() {

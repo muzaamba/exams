@@ -12,6 +12,8 @@ import { CircularProgress, LinearProgress } from '@/components/ui/Progress';
 import AnalysisDashboard from '@/components/dashboard/AnalysisDashboard';
 import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase/client';
+import { normalizeSubject } from '@/lib/utils';
+import { useMemo } from 'react';
 
 export default function SubjectDetailPage() {
   const { slug } = useParams();
@@ -20,19 +22,34 @@ export default function SubjectDetailPage() {
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const subject = SUBJECTS.find((s) => s.slug === slug) || SUBJECTS[0];
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
+    if (!slug) return;
     async function fetchSubjectData() {
-      if (!supabase || !slug) return;
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        // First try exact match (normalized)
+        let { data, error } = await supabase
           .from('exams')
           .select('*')
-          .ilike('subject', slug)
+          .eq('subject', slug)
           .eq('status', 'published');
-        
+
+        // Fallback: ilike for any un-normalized records
+        if (!error && (!data || data.length === 0)) {
+          const { data: fallbackData, error: fallbackError } = await supabase
+            .from('exams')
+            .select('*')
+            .ilike('subject', `%${slug}%`)
+            .eq('status', 'published');
+          if (!fallbackError) data = fallbackData;
+        }
+
         if (!error) setExams(data || []);
       } catch (err) {
         console.error('Error fetching subject data:', err);

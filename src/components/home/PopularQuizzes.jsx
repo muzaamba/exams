@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Clock, Users, Zap, FileText } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
@@ -10,7 +10,7 @@ import { createClient } from '@/lib/supabase/client';
 export default function PopularQuizzes() {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -26,7 +26,7 @@ export default function PopularQuizzes() {
     };
 
     fetchQuizzes();
-  }, []);
+  }, [supabase]);
 
   if (loading) {
     return (

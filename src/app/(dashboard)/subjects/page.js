@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { ArrowRight, BookOpen, Brain, FileText, Search, Loader2 } from 'lucide-react';
 import { SUBJECTS } from '@/lib/constants';
@@ -13,7 +13,7 @@ export default function SubjectsPage() {
   const [subjectCounts, setSubjectCounts] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     async function fetchCounts() {
@@ -44,7 +44,7 @@ export default function SubjectsPage() {
     }
 
     fetchCounts();
-  }, []);
+  }, [supabase]);
 
 
   const filtered = SUBJECTS.filter((s) =>

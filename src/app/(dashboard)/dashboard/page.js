@@ -20,7 +20,7 @@ export default function DashboardPage() {
   const [globalStanding, setGlobalStanding] = useState('...');
   const [statsLoading, setStatsLoading] = useState(true);
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     setGreeting(getGreeting());
@@ -58,7 +58,7 @@ export default function DashboardPage() {
     if (!authLoading) {
       fetchStats();
     }
-  }, [authLoading, profile]);
+  }, [authLoading, profile, supabase]);
 
   // Safety timeout: never stay stuck on loading for more than 3 seconds
   const [timedOut, setTimedOut] = useState(false);

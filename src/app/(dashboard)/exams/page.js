@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { FileText, Search, Clock, Award, Loader2, Share2 } from 'lucide-react';
 import { SUBJECTS } from '@/lib/constants';
@@ -14,7 +14,7 @@ export default function ExamsPage() {
   const [yearFilter, setYearFilter] = useState('all');
   const [selectedSubject, setSelectedSubject] = useState('all');
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     async function fetchExams() {
@@ -46,7 +46,7 @@ export default function ExamsPage() {
     }
 
     fetchExams();
-  }, []);
+  }, [supabase]);
 
   const handleShare = async (e, exam) => {
     e.preventDefault();
