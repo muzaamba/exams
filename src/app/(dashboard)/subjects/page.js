@@ -29,7 +29,7 @@ export default function SubjectsPage() {
 
         if (error) throw error;
 
-        const counts = data.reduce((acc, curr) => {
+        const counts = (data || []).reduce((acc, curr) => {
           const slug = normalizeSubject(curr.subject);
           acc[slug] = (acc[slug] || 0) + 1;
           return acc;
