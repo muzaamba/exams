@@ -23,8 +23,8 @@ export async function GET(request) {
     // 1. Fetch questions from the last 3 years for this subject
     const { data: questions, error } = await supabase
       .from('questions')
-      .select('question_text, topic, difficulty, exams(year)')
-      .eq('subject', subject)
+      .select('question_text, topic, difficulty, exams!inner(year, subject)')
+      .eq('exams.subject', subject)
       .order('created_at', { ascending: false });
 
     if (error) throw error;

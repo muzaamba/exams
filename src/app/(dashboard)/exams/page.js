@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { FileText, Search, Clock, Award, Loader2, Share2 } from 'lucide-react';
+import { FileText, Search, Clock, Award, Loader2, Share2, Download, Zap } from 'lucide-react';
 import { SUBJECTS } from '@/lib/constants';
 import { createClient } from '@/lib/supabase/client';
 import { normalizeSubject } from '@/lib/utils';
+import ExamGrid from '@/components/dashboard/ExamGrid';
 
 export default function ExamsPage() {
   const [exams, setExams] = useState([]);
@@ -215,60 +216,95 @@ export default function ExamsPage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filteredExams.map((exam) => {
-                const sub = SUBJECTS.find((s) => s.slug === exam.subject);
-                return (
-                  <Link 
-                    key={exam.id} 
-                    href={`/exams/${exam.id}`} 
-                    className="glass-card p-5 flex items-center gap-5 group hover:border-primary/40 transition-all active:scale-[0.99] hover:shadow-xl hover:shadow-primary/5"
+            {selectedSubject !== 'all' ? (
+              <div className="space-y-8">
+                <div className="flex items-center justify-between p-6 bg-primary/5 rounded-[2.5rem] border border-primary/10">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-2xl text-white shadow-lg shadow-primary/20">
+                      {SUBJECTS.find(s => s.slug === selectedSubject)?.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black">{SUBJECTS.find(s => s.slug === selectedSubject)?.name} Master Grid</h3>
+                      <p className="text-xs text-muted font-bold uppercase tracking-widest mt-1">5-Year National Archive (2020-2025)</p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="primary" 
+                    icon={Download}
+                    className="hidden sm:flex"
+                    onClick={() => {
+                      const subjectExams = filteredExams.filter(e => e.subject === selectedSubject);
+                      subjectExams.forEach((e, i) => {
+                        setTimeout(() => handleDownload(null, e), i * 1000); // Stagger downloads
+                      });
+                    }}
                   >
-                    <div className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center text-3xl shrink-0 transition-all group-hover:scale-110 shadow-lg"
-                      style={{ background: `${sub?.color || '#6366F1'}15`, color: sub?.color }}>
-                      {sub?.icon || '📄'}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="text-[10px] font-black text-primary bg-primary/10 px-2 py-0.5 rounded-md tracking-wider">
-                          {exam.year}
-                        </span>
-                        <span className="text-[10px] font-black text-muted/60 flex items-center gap-1 uppercase tracking-widest">
-                          <Clock size={10} /> {exam.duration} MIN
-                        </span>
+                    Download All Papers
+                  </Button>
+                </div>
+                
+                <ExamGrid 
+                  exams={filteredExams} 
+                  subjectColor={SUBJECTS.find(s => s.slug === selectedSubject)?.color}
+                  onDownload={(exam) => handleDownload(null, exam)}
+                />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {filteredExams.map((exam) => {
+                  const sub = SUBJECTS.find((s) => s.slug === exam.subject);
+                  return (
+                    <Link 
+                      key={exam.id} 
+                      href={`/exams/${exam.id}`} 
+                      className="glass-card p-5 flex items-center gap-5 group hover:border-primary/40 transition-all active:scale-[0.99] hover:shadow-xl hover:shadow-primary/5"
+                    >
+                      <div className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center text-3xl shrink-0 transition-all group-hover:scale-110 shadow-lg"
+                        style={{ background: `${sub?.color || '#6366F1'}15`, color: sub?.color }}>
+                        {sub?.icon || '📄'}
                       </div>
-                      <h3 className="font-bold text-lg group-hover:text-primary transition-colors truncate leading-tight">
-                        {exam.title}
-                      </h3>
-                      <div className="flex items-center gap-4 mt-2.5">
-                        <span className="flex items-center gap-1.5 text-[10px] text-muted font-bold uppercase tracking-widest">
-                          <Award size={10} className="text-primary" /> {exam.total_marks} MARKS
-                        </span>
-                        <span className="flex items-center gap-1.5 text-[10px] text-muted font-bold uppercase tracking-widest">
-                          <FileText size={10} className="text-primary" /> {exam.downloads || 0} DOWNLOADS
-                        </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <span className="text-[10px] font-black text-primary bg-primary/10 px-2 py-0.5 rounded-md tracking-wider">
+                            {exam.year}
+                          </span>
+                          <span className="text-[10px] font-black text-muted/60 flex items-center gap-1 uppercase tracking-widest">
+                            <Clock size={10} /> {exam.duration} MIN
+                          </span>
+                        </div>
+                        <h3 className="font-bold text-lg group-hover:text-primary transition-colors truncate leading-tight">
+                          {exam.title}
+                        </h3>
+                        <div className="flex items-center gap-4 mt-2.5">
+                          <span className="flex items-center gap-1.5 text-[10px] text-muted font-bold uppercase tracking-widest">
+                            <Award size={10} className="text-primary" /> {exam.total_marks} MARKS
+                          </span>
+                          <span className="flex items-center gap-1.5 text-[10px] text-muted font-bold uppercase tracking-widest">
+                            <FileText size={10} className="text-primary" /> {exam.downloads || 0} DOWNLOADS
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex gap-2 shrink-0">
-                      <button 
-                        onClick={(e) => handleShare(e, exam)}
-                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface border border-border hover:border-primary/50 hover:bg-primary/5 text-muted hover:text-primary transition-all shadow-sm"
-                        title="Share with friends"
-                      >
-                        <Share2 size={18} />
-                      </button>
-                      <button 
-                        onClick={(e) => handleDownload(e, exam)}
-                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface border border-border group-hover:border-primary/50 group-hover:bg-primary/5 text-muted group-hover:text-primary transition-all shadow-sm"
-                        title="Download Paper"
-                      >
-                        <FileText size={20} />
-                      </button>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+                      <div className="flex gap-2 shrink-0">
+                        <button 
+                          onClick={(e) => handleShare(e, exam)}
+                          className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface border border-border hover:border-primary/50 hover:bg-primary/5 text-muted hover:text-primary transition-all shadow-sm"
+                          title="Share with friends"
+                        >
+                          <Share2 size={18} />
+                        </button>
+                        <button 
+                          onClick={(e) => handleDownload(e, exam)}
+                          className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface border border-border group-hover:border-primary/50 group-hover:bg-primary/5 text-muted group-hover:text-primary transition-all shadow-sm"
+                          title="Download Paper"
+                        >
+                          <FileText size={20} />
+                        </button>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
 
             {filteredExams.length === 0 && (
               <div className="text-center py-20 bg-surface/30 rounded-[3rem] border-2 border-dashed border-border/50">
