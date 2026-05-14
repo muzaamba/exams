@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Users, Play, Copy, Check, LogOut, Shield } from 'lucide-react';
-import { supabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 
 export default function MultiplayerLobby({ roomCode, onStart }) {
   const { user, profile } = useAuth();
+  const supabase = useMemo(() => createClient(), []);
   const [room, setRoom] = useState(null);
   const [players, setPlayers] = useState([]);
   const [isCopied, setIsCopied] = useState(false);

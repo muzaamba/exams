@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plus, Users, Search, ArrowRight, Play, Swords, Group, Share2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
@@ -21,6 +21,7 @@ const sampleQuestions = [
 export default function RoomsPage() {
   const router = useRouter();
   const { user } = useAuth();
+  const supabase = useMemo(() => createClient(), []);
   const [roomCode, setRoomCode] = useState('');
   const [activeRoom, setActiveRoom] = useState(null);
   const [view, setView] = useState('list'); // list, lobby, playing

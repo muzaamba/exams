@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Trophy, Clock, Zap, Target, Users, CheckCircle, XCircle } from 'lucide-react';
-import { supabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import Button from '@/components/ui/Button';
 import { CircularProgress } from '@/components/ui/Progress';
@@ -11,6 +11,7 @@ import confetti from 'canvas-confetti';
 
 export default function LiveQuizPlayer({ roomCode, questions }) {
   const { user, profile } = useAuth();
+  const supabase = useMemo(() => createClient(), []);
   const [currentQ, setCurrentQ] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [revealed, setRevealed] = useState(false);
