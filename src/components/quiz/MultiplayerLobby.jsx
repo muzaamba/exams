@@ -21,6 +21,11 @@ export default function MultiplayerLobby({ roomCode, onStart }) {
     if (!roomCode) return;
 
     const fetchRoom = async () => {
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
+      
       const { data, error } = await supabase
         .from('quiz_rooms')
         .select('*, host:host_user_id(*), quiz:quiz_id(*)')
@@ -140,7 +145,6 @@ export default function MultiplayerLobby({ roomCode, onStart }) {
               icon={Play} 
               size="lg" 
               onClick={startGame}
-              disabled={players.length < 2}
             >
               Start Game
             </Button>

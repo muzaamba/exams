@@ -23,7 +23,7 @@ export default function LiveQuizPlayer({ roomCode, questions }) {
   const totalQuestions = questions.length;
 
   useEffect(() => {
-    if (finished) return;
+    if (finished || !roomCode || !supabase) return;
 
     const channel = supabase.channel(`live:${roomCode}`);
 
@@ -46,21 +46,26 @@ export default function LiveQuizPlayer({ roomCode, questions }) {
       })
       .subscribe();
 
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [roomCode, supabase, finished]);
+
+  useEffect(() => {
+    if (finished || revealed) return;
+
     const timer = setInterval(() => {
       setTimeLeft(t => {
         if (t <= 1) {
-          revealAnswers();
+          setRevealed(true);
           return 0;
         }
         return t - 1;
       });
     }, 1000);
 
-    return () => {
-      clearInterval(timer);
-      channel.unsubscribe();
-    };
-  }, [currentQ, finished]);
+    return () => clearInterval(timer);
+  }, [currentQ, finished, revealed]);
 
   const revealAnswers = () => {
     setRevealed(true);
@@ -78,15 +83,26 @@ export default function LiveQuizPlayer({ roomCode, questions }) {
     const points = isCorrect ? 100 + (timeLeft * 5) : 0;
     const newScore = (scores[user.id]?.score || 0) + points;
 
-    // Broadcast score update
-    await supabase.channel(`live:${roomCode}`).send({
+    // Update local state first
+    const scoreUpdate = {
+      name: profile?.full_name || user.email,
+      score: newScore,
+      isCorrect
+    };
+
+    setScores(prev => ({
+      ...prev,
+      [user.id]: scoreUpdate
+    }));
+
+    // Broadcast score update to others
+    const channel = supabase.channel(`live:${roomCode}`);
+    await channel.send({
       type: 'broadcast',
       event: 'player_score',
       payload: {
         user_id: user.id,
-        name: profile?.full_name || user.email,
-        score: newScore,
-        isCorrect
+        ...scoreUpdate
       }
     });
 
