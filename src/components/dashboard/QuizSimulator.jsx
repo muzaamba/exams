@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { ArrowLeft, ArrowRight, Clock, CheckCircle, XCircle, RotateCcw, Play, Loader2, Trophy } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, CheckCircle, XCircle, RotateCcw, Play, Loader2, Trophy, Brain } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import Badge from '@/components/ui/Badge';
 import { CircularProgress } from '@/components/ui/Progress';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
