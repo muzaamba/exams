@@ -12,6 +12,7 @@ export const SUBJECTS = [
   { slug: 'business', name: 'Business', icon: '💼', color: '#64748B', description: 'Business Studies & Economics' },
   { slug: 'ict', name: 'ICT', icon: '💻', color: '#0EA5E9', description: 'Information & Communication Tech' },
   { slug: 'science', name: 'Science', icon: '🔬', color: '#BE185D', description: 'Integrated Science & Environment' },
+  { slug: 'social_studies', name: 'Social Studies', icon: '🌍', color: '#D97706', description: 'Cilmi Bulsho, Geography & History' },
 ];
 
 export const GRADES = [
