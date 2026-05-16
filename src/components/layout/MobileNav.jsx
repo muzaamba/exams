@@ -9,7 +9,6 @@ const mobileLinks = [
   { href: '/dashboard', label: 'Home', icon: LayoutDashboard },
   { href: '/subjects', label: 'Subjects', icon: BookOpen },
   { href: '/quizzes', label: 'Quiz', icon: Brain },
-  { href: '/exams', label: 'Exams', icon: FileText },
   { href: '/leaderboard', label: 'Ranks', icon: Trophy },
 ];
 

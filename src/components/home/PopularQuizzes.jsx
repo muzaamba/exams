@@ -55,8 +55,8 @@ export default function PopularQuizzes() {
             </h2>
             <p className="text-muted">Test your knowledge with trending quizzes</p>
           </div>
-          <Link href="/exams" className="hidden sm:flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
-            View All →
+          <Link href="/subjects" className="hidden sm:flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
+            View All Subjects →
           </Link>
         </div>
 

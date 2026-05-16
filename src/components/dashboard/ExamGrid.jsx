@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 const YEARS = [2025, 2024, 2023, 2022, 2021, 2020];
 
-export default function ExamGrid({ exams, subjectColor, onDownload }) {
+export default function ExamGrid({ exams, subjectColor, onDownload, onPractice }) {
   // Group exams by year (allowing multiple per year)
   const examsByYear = useMemo(() => (exams || []).reduce((acc, exam) => {
     if (!acc[exam.year]) acc[exam.year] = [];
@@ -22,6 +22,12 @@ export default function ExamGrid({ exams, subjectColor, onDownload }) {
       await onDownload(exam);
     } else {
       await import('@/lib/download-exam').then(m => m.downloadExamPaper(exam.id, exam.title));
+    }
+  };
+
+  const handlePractice = (exam) => {
+    if (onPractice) {
+      onPractice(exam);
     }
   };
 
@@ -63,9 +69,15 @@ export default function ExamGrid({ exams, subjectColor, onDownload }) {
                       </p>
                     </div>
                     <div className="flex gap-2">
-                      <Link href={`/exams/${exam.id}`} className="flex-1">
-                        <Button size="xs" className="w-full text-[10px] h-8" variant="primary" icon={Play}>Practice</Button>
-                      </Link>
+                      <Button 
+                        size="xs" 
+                        className="flex-1 text-[10px] h-8" 
+                        variant="primary" 
+                        icon={Play}
+                        onClick={() => handlePractice(exam)}
+                      >
+                        Practice
+                      </Button>
                       <Button 
                         size="xs" 
                         variant="secondary" 

@@ -139,8 +139,8 @@ export default function DashboardPage() {
             </div>
             <p className="font-bold text-lg">Start Practicing!</p>
             <p className="text-sm text-muted mt-1">Complete your first quiz to see detailed topic analysis and AI recommendations.</p>
-            <Link href="/exams" className="mt-6">
-              <Button size="sm">Browse Exams</Button>
+            <Link href="/subjects" className="mt-6">
+              <Button size="sm">Browse Subjects</Button>
             </Link>
           </div>
         </Card>

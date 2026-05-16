@@ -10,6 +10,8 @@ export const SUBJECTS = [
   { slug: 'history', name: 'History', icon: '📜', color: '#F97316', description: 'Somali & World History' },
   { slug: 'islamic_studies', name: 'Islamic Studies', icon: '🕋', color: '#059669', description: 'Islamic Jurisprudence & Ethics' },
   { slug: 'business', name: 'Business', icon: '💼', color: '#64748B', description: 'Business Studies & Economics' },
+  { slug: 'ict', name: 'ICT', icon: '💻', color: '#0EA5E9', description: 'Information & Communication Tech' },
+  { slug: 'science', name: 'Science', icon: '🔬', color: '#BE185D', description: 'Integrated Science & Environment' },
 ];
 
 export const GRADES = [
@@ -48,7 +50,6 @@ export const NAV_LINKS = [
   { href: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
   { href: '/subjects', label: 'Subjects', icon: 'BookOpen' },
   { href: '/quizzes', label: 'Quizzes', icon: 'Brain' },
-  { href: '/exams', label: 'Exams', icon: 'FileText' },
   { href: '/revision', label: 'Revision', icon: 'Target' },
   { href: '/leaderboard', label: 'Leaderboard', icon: 'Trophy' },
 ];

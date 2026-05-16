@@ -23,11 +23,17 @@ export default function SubjectDetailPage() {
   const initialTab = searchParams.get('tab') || 'Overview';
   const { profile } = useAuth();
   const [activeTab, setActiveTab] = useState(initialTab);
+  const [selectedGrade, setSelectedGrade] = useState('grade8'); // Default to Grade 8
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeQuizId, setActiveQuizId] = useState(null);
   const subject = SUBJECTS.find((s) => s.slug === slug) || SUBJECTS[0];
   const supabase = useMemo(() => createClient(), []);
+
+  // Filtered exams based on selected grade
+  const filteredExams = useMemo(() => {
+    return exams.filter(e => e.grade === selectedGrade);
+  }, [exams, selectedGrade]);
 
   useEffect(() => {
     if (!slug) return;
@@ -41,7 +47,6 @@ export default function SubjectDetailPage() {
       
       setLoading(true);
       
-      // Safety timeout to prevent infinite loading
       const timeout = setTimeout(() => {
         if (isMounted) setLoading(false);
       }, 8000);
@@ -56,8 +61,8 @@ export default function SubjectDetailPage() {
         if (error) throw error;
 
         if (isMounted) {
-          const filtered = (data || []).filter(e => normalizeSubject(e.subject) === slug);
-          setExams(filtered);
+          const subjectExams = (data || []).filter(e => normalizeSubject(e.subject) === slug);
+          setExams(subjectExams);
         }
       } catch (err) {
         console.error('Error fetching subject data:', err);
@@ -71,6 +76,10 @@ export default function SubjectDetailPage() {
   }, [slug, supabase]);
 
   const tabs = ['Overview', 'Quizzes', 'Exams', 'Notes', 'AI Analysis'];
+  const grades = [
+    { id: 'grade8', label: 'Grade 8', icon: '🏫' },
+    { id: 'form4', label: 'Form 4', icon: '🎓' }
+  ];
 
   return (
     <div className="max-w-6xl space-y-6">
@@ -193,7 +202,6 @@ export default function SubjectDetailPage() {
             </div>
           )}
 
-           {activeTab === 'Quizzes' && (
             <div className="space-y-8">
               {activeQuizId ? (
                 <QuizSimulator 
@@ -202,7 +210,7 @@ export default function SubjectDetailPage() {
                 />
               ) : (
                 <>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 bg-indigo-500/5 rounded-[2.5rem] border border-indigo-500/10">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-6 bg-indigo-500/5 rounded-[2.5rem] border border-indigo-500/10">
                     <div>
                       <h3 className="text-xl font-black flex items-center gap-2">
                         <Zap className="text-indigo-400" size={24} />
@@ -210,12 +218,28 @@ export default function SubjectDetailPage() {
                       </h3>
                       <p className="text-xs text-muted font-bold uppercase tracking-widest mt-1">Real past papers converted into timed simulations</p>
                     </div>
-                    <Badge color="indigo" className="w-fit">Beta</Badge>
+                    
+                    {/* Grade Selector */}
+                    <div className="flex p-1.5 bg-surface rounded-2xl border border-border shrink-0 shadow-sm">
+                      {grades.map((g) => (
+                        <button
+                          key={g.id}
+                          onClick={() => setSelectedGrade(g.id)}
+                          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all ${
+                            selectedGrade === g.id
+                              ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                              : 'text-muted hover:text-foreground'
+                          }`}
+                        >
+                          <span className="text-sm">{g.icon}</span> {g.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  {exams.length > 0 ? (
+                  {filteredExams.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {exams.map((exam) => (
+                      {filteredExams.map((exam) => (
                         <Card key={exam.id} className="p-6 flex flex-col justify-between border-2 border-border/50 hover:border-indigo-500/50 transition-all">
                           <div>
                             <div className="flex items-center justify-between mb-4">
@@ -244,7 +268,7 @@ export default function SubjectDetailPage() {
                     <div className="flex flex-col items-center justify-center py-20 text-center glass-card">
                       <div className="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-6 text-3xl">🧩</div>
                       <h3 className="font-bold text-xl">No Quizzes Available</h3>
-                      <p className="text-sm text-muted mt-2 max-w-sm font-medium">We are currently generating smart interactive quizzes for {subject.name}. Check back in a few days!</p>
+                      <p className="text-sm text-muted mt-2 max-w-sm font-medium">We are currently generating smart interactive quizzes for {subject.name} {selectedGrade === 'grade8' ? 'Grade 8' : 'Form 4'}. Check back in a few days!</p>
                     </div>
                   )}
                 </>
@@ -254,27 +278,61 @@ export default function SubjectDetailPage() {
 
           {activeTab === 'Exams' && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold flex items-center gap-2">
-                  <FileText className="text-primary" size={24} />
-                  5-Year Exam Archive
-                </h3>
-                {exams.length > 0 && (
-                  <Button 
-                    variant="secondary" 
-                    size="sm" 
-                    icon={Download}
-                    onClick={() => {
-                      exams.forEach((e, i) => {
-                        setTimeout(() => import('@/lib/download-exam').then(m => m.downloadExamPaper(e.id, e.title)), i * 1000);
-                      });
-                    }}
-                  >
-                    Download All
-                  </Button>
-                )}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 bg-primary/5 rounded-[2.5rem] border border-primary/10">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                    <FileText className="text-primary" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black">5-Year Exam Archive</h3>
+                    <p className="text-xs text-muted font-bold uppercase tracking-widest mt-1">Download official past papers</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  {/* Grade Selector */}
+                  <div className="flex p-1 bg-surface rounded-xl border border-border shadow-sm">
+                    {grades.map((g) => (
+                      <button
+                        key={g.id}
+                        onClick={() => setSelectedGrade(g.id)}
+                        className={`px-4 py-2 rounded-lg text-xs font-black transition-all ${
+                          selectedGrade === g.id
+                            ? 'bg-primary text-white shadow-md'
+                            : 'text-muted hover:text-foreground'
+                        }`}
+                      >
+                        {g.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {filteredExams.length > 0 && (
+                    <Button 
+                      variant="secondary" 
+                      size="sm" 
+                      icon={Download}
+                      className="whitespace-nowrap"
+                      onClick={() => {
+                        filteredExams.forEach((e, i) => {
+                          setTimeout(() => import('@/lib/download-exam').then(m => m.downloadExamPaper(e.id, e.title)), i * 1000);
+                        });
+                      }}
+                    >
+                      Download All
+                    </Button>
+                  )}
+                </div>
               </div>
-              <ExamGrid exams={exams} subjectColor={subject.color} />
+
+              <ExamGrid 
+                exams={filteredExams} 
+                subjectColor={subject.color} 
+                onPractice={(exam) => {
+                  setActiveQuizId(exam.id);
+                  setActiveTab('Quizzes');
+                }}
+              />
             </div>
           )}
 
