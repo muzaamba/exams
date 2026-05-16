@@ -20,12 +20,18 @@ export default function ExamsPage() {
   const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
+    let isMounted = true;
     async function fetchExams() {
       if (!supabase) {
         setLoading(false);
         return;
       }
       setLoading(true);
+      
+      const timeout = setTimeout(() => {
+        if (isMounted) setLoading(false);
+      }, 8000);
+
       try {
         const { data, error } = await supabase
           .from('exams')
@@ -35,20 +41,24 @@ export default function ExamsPage() {
 
         if (error) throw error;
         
-        const normalized = (data || []).map(e => ({
-          ...e,
-          subject: normalizeSubject(e.subject)
-        }));
-        
-        setExams(normalized);
+        if (isMounted) {
+          const normalized = (data || []).map(e => ({
+            ...e,
+            subject: normalizeSubject(e.subject)
+          }));
+          
+          setExams(normalized);
+        }
       } catch (err) {
         console.error('Error fetching exams:', err);
       } finally {
-        setLoading(false);
+        clearTimeout(timeout);
+        if (isMounted) setLoading(false);
       }
     }
 
     fetchExams();
+    return () => { isMounted = false; };
   }, [supabase]);
 
   const handleShare = async (e, exam) => {

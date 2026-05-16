@@ -25,67 +25,58 @@ export default function ExamGrid({ exams, subjectColor, onDownload }) {
     }
   };
 
+  // Get only the years that have exams and sort them descending
+  const availableYears = useMemo(() => {
+    return Object.keys(examsByYear)
+      .map(Number)
+      .sort((a, b) => b - a);
+  }, [examsByYear]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {YEARS.map((year) => {
+      {availableYears.map((year) => {
         const yearExams = examsByYear[year] || [];
-        const isAvailable = yearExams.length > 0;
 
         return (
-          <Card key={year} hover={false} className={`relative overflow-hidden border-2 transition-all ${isAvailable ? 'border-border/50' : 'border-dashed border-border/30 opacity-60'}`}>
+          <Card key={year} hover={false} className="relative overflow-hidden border-2 border-border/50 transition-all">
             <div className="flex items-center justify-between mb-4 relative z-10">
               <div className="flex items-center gap-2">
-                <span className={`text-lg font-black ${isAvailable ? 'text-foreground' : 'text-muted'}`}>{year}</span>
-                {isAvailable && (
-                  <Badge color="primary" variant="outline" className="text-[10px]">
-                    {yearExams.length} {yearExams.length === 1 ? 'PAPER' : 'PAPERS'}
-                  </Badge>
-                )}
+                <span className="text-lg font-black text-foreground">{year}</span>
+                <Badge color="primary" variant="outline" className="text-[10px]">
+                  {yearExams.length} {yearExams.length === 1 ? 'PAPER' : 'PAPERS'}
+                </Badge>
               </div>
-              {isAvailable ? (
-                <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center">
-                  <CheckCircle size={16} className="text-green-500" />
-                </div>
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-surface flex items-center justify-center">
-                  <Clock size={16} className="text-muted/30" />
-                </div>
-              )}
+              <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center">
+                <CheckCircle size={16} className="text-green-500" />
+              </div>
             </div>
 
             <div className="space-y-4 relative z-10">
-              {isAvailable ? (
-                <div className="space-y-3">
-                  {yearExams.map((exam) => (
-                    <div key={exam.id} className="p-3 rounded-2xl bg-surface/50 border border-border/50 hover:border-primary/30 transition-all group">
-                      <div className="mb-3">
-                        <h4 className="font-bold text-sm truncate group-hover:text-primary transition-colors">{exam.title}</h4>
-                        <p className="text-[9px] text-muted font-black uppercase tracking-widest mt-1 flex items-center gap-2">
-                          <Badge color="blue" className="px-1.5 py-0 h-4 text-[8px]">{exam.grade === 'form4' ? 'F4' : 'G8'}</Badge>
-                          <Award size={10} className="text-primary/60" /> {exam.total_marks}M
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Link href={`/exams/${exam.id}`} className="flex-1">
-                          <Button size="xs" className="w-full text-[10px] h-8" variant="primary" icon={Play}>Practice</Button>
-                        </Link>
-                        <Button 
-                          size="xs" 
-                          variant="secondary" 
-                          className="h-8 w-8 !p-0"
-                          icon={Download}
-                          onClick={() => handleDownload(exam)}
-                        />
-                      </div>
+              <div className="space-y-3">
+                {yearExams.map((exam) => (
+                  <div key={exam.id} className="p-3 rounded-2xl bg-surface/50 border border-border/50 hover:border-primary/30 transition-all group">
+                    <div className="mb-3">
+                      <h4 className="font-bold text-sm truncate group-hover:text-primary transition-colors">{exam.title}</h4>
+                      <p className="text-[9px] text-muted font-black uppercase tracking-widest mt-1 flex items-center gap-2">
+                        <Badge color="blue" className="px-1.5 py-0 h-4 text-[8px]">{exam.grade === 'form4' ? 'F4' : 'G8'}</Badge>
+                        <Award size={10} className="text-primary/60" /> {exam.total_marks}M
+                      </p>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="py-6 flex flex-col items-center justify-center text-center">
-                  <FileText size={24} className="text-muted/20 mb-2" />
-                  <p className="text-xs font-bold text-muted/40 uppercase tracking-tighter">Archive Pending</p>
-                </div>
-              )}
+                    <div className="flex gap-2">
+                      <Link href={`/exams/${exam.id}`} className="flex-1">
+                        <Button size="xs" className="w-full text-[10px] h-8" variant="primary" icon={Play}>Practice</Button>
+                      </Link>
+                      <Button 
+                        size="xs" 
+                        variant="secondary" 
+                        className="h-8 w-8 !p-0"
+                        icon={Download}
+                        onClick={() => handleDownload(exam)}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Background Year Decal */}
@@ -95,6 +86,14 @@ export default function ExamGrid({ exams, subjectColor, onDownload }) {
           </Card>
         );
       })}
+      
+      {availableYears.length === 0 && (
+        <div className="col-span-full py-20 text-center glass-card border-dashed border-2">
+          <FileText size={48} className="mx-auto text-muted/20 mb-4" />
+          <h3 className="text-xl font-bold">No Papers in Archive</h3>
+          <p className="text-muted text-sm max-w-xs mx-auto mt-2">We are currently digitizing the archive for this subject. Check back soon!</p>
+        </div>
+      )}
     </div>
   );
 }

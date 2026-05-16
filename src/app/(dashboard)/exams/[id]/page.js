@@ -21,6 +21,7 @@ export default function ExamDetailPage() {
   const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
+    let isMounted = true;
     async function fetchExamDetails() {
       if (!id) return;
       if (!supabase) {
@@ -28,6 +29,11 @@ export default function ExamDetailPage() {
         return;
       }
       setLoading(true);
+
+      const timeout = setTimeout(() => {
+        if (isMounted) setLoading(false);
+      }, 8000);
+
       try {
         // Fetch Exam
         const { data: examData, error: examError } = await supabase
@@ -37,36 +43,40 @@ export default function ExamDetailPage() {
           .single();
 
         if (examError) throw examError;
-        setExam({ ...examData, subject: normalizeSubject(examData.subject) });
-
-        // Fetch Sections
-        const { data: sectionData } = await supabase
-          .from('sections')
-          .select('*')
-          .eq('exam_id', id)
-          .order('sort_order', { ascending: true });
         
-        setSections(sectionData || []);
+        if (isMounted) {
+          setExam({ ...examData, subject: normalizeSubject(examData.subject) });
 
-        // Fetch Questions (first few for preview)
-        const { data: questionData } = await supabase
-          .from('questions')
-          .select('*')
-          .eq('exam_id', id)
-          .order('question_number', { ascending: true })
-          .limit(5);
-        
-        setQuestions(questionData || []);
+          // Fetch Sections
+          const { data: sectionData } = await supabase
+            .from('sections')
+            .select('*')
+            .eq('exam_id', id)
+            .order('sort_order', { ascending: true });
+          
+          setSections(sectionData || []);
 
+          // Fetch Questions (first few for preview)
+          const { data: questionData } = await supabase
+            .from('questions')
+            .select('*')
+            .eq('exam_id', id)
+            .order('question_number', { ascending: true })
+            .limit(5);
+          
+          setQuestions(questionData || []);
+        }
       } catch (err) {
         console.error('Error fetching exam details:', err);
-        setError(err.message);
+        if (isMounted) setError(err.message);
       } finally {
-        setLoading(false);
+        clearTimeout(timeout);
+        if (isMounted) setLoading(false);
       }
     }
 
     fetchExamDetails();
+    return () => { isMounted = false; };
   }, [id, supabase]);
 
   const handleShare = async () => {
