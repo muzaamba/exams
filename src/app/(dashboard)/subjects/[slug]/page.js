@@ -31,14 +31,22 @@ export default function SubjectDetailPage() {
 
   useEffect(() => {
     if (!slug) return;
+    let isMounted = true;
+    
     async function fetchSubjectData() {
       if (!supabase) {
         setLoading(false);
         return;
       }
+      
       setLoading(true);
+      
+      // Safety timeout to prevent infinite loading
+      const timeout = setTimeout(() => {
+        if (isMounted) setLoading(false);
+      }, 8000);
+
       try {
-        // Fetch all published exams and filter by normalized subject
         const { data, error } = await supabase
           .from('exams')
           .select('*')
@@ -47,15 +55,19 @@ export default function SubjectDetailPage() {
 
         if (error) throw error;
 
-        const filtered = (data || []).filter(e => normalizeSubject(e.subject) === slug);
-        setExams(filtered);
+        if (isMounted) {
+          const filtered = (data || []).filter(e => normalizeSubject(e.subject) === slug);
+          setExams(filtered);
+        }
       } catch (err) {
         console.error('Error fetching subject data:', err);
       } finally {
-        setLoading(false);
+        clearTimeout(timeout);
+        if (isMounted) setLoading(false);
       }
     }
     fetchSubjectData();
+    return () => { isMounted = false; };
   }, [slug, supabase]);
 
   const tabs = ['Overview', 'Quizzes', 'Exams', 'Notes', 'AI Analysis'];
@@ -75,6 +87,20 @@ export default function SubjectDetailPage() {
             <h1 className="text-2xl sm:text-3xl font-bold">{subject.name}</h1>
             <p className="text-muted text-sm">{subject.description}</p>
           </div>
+        </div>
+      </div>
+
+      {/* AI Warning & Download Notice */}
+      <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row items-start gap-4">
+        <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
+          <Brain className="text-amber-500" size={20} />
+        </div>
+        <div className="space-y-1">
+          <h4 className="font-bold text-amber-600 text-xs uppercase tracking-widest leading-none">FIIRO GAAR AH / IMPORTANT NOTICE</h4>
+          <p className="text-xs font-bold leading-relaxed">
+            Jawaabaha qaar waa AI-generated oo laga yaabaa inay khaldan yihiin. 
+            Waxaad kala soo bixi kartaa waraaqaha asalka ah <a href="https://somexams.com/all-exams/federal-exams/" target="_blank" className="text-primary underline">halkan</a>.
+          </p>
         </div>
       </div>
 

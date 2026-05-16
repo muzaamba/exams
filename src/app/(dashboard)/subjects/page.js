@@ -16,11 +16,17 @@ export default function SubjectsPage() {
   const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
+    let isMounted = true;
     async function fetchCounts() {
       if (!supabase) {
         setLoading(false);
         return;
       }
+      
+      const timeout = setTimeout(() => {
+        if (isMounted) setLoading(false);
+      }, 5000);
+
       try {
         const { data, error } = await supabase
           .from('exams')
@@ -29,21 +35,25 @@ export default function SubjectsPage() {
 
         if (error) throw error;
 
-        const counts = (data || []).reduce((acc, curr) => {
-          const slug = normalizeSubject(curr.subject);
-          acc[slug] = (acc[slug] || 0) + 1;
-          return acc;
-        }, {});
+        if (isMounted) {
+          const counts = (data || []).reduce((acc, curr) => {
+            const slug = normalizeSubject(curr.subject);
+            acc[slug] = (acc[slug] || 0) + 1;
+            return acc;
+          }, {});
 
-        setSubjectCounts(counts);
+          setSubjectCounts(counts);
+        }
       } catch (err) {
         console.error('Error fetching subject counts:', err);
       } finally {
-        setLoading(false);
+        clearTimeout(timeout);
+        if (isMounted) setLoading(false);
       }
     }
 
     fetchCounts();
+    return () => { isMounted = false; };
   }, [supabase]);
 
 
@@ -67,6 +77,22 @@ export default function SubjectsPage() {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm"
           />
+        </div>
+      </div>
+      
+      {/* AI Warning & Download Notice */}
+      <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row items-start gap-3">
+        <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
+          <Brain className="text-amber-500" size={20} />
+        </div>
+        <div className="space-y-1">
+          <h4 className="font-bold text-amber-600 text-xs uppercase tracking-widest">FIIRO GAAR AH / AI NOTICE</h4>
+          <p className="text-xs font-bold leading-relaxed">
+            Jawaabaha qaar waa AI. Waxaad kala soo bixi kartaa waraaqaha asalka ah <a href="https://somexams.com/all-exams/federal-exams/" target="_blank" className="text-primary underline">halkan</a>.
+          </p>
+          <p className="text-[10px] text-muted font-medium">
+            Some answers are AI-generated. Download original papers <a href="https://somexams.com/all-exams/federal-exams/" target="_blank" className="underline">here</a>.
+          </p>
         </div>
       </div>
 
