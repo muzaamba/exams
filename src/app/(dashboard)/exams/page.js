@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { FileText, Search, Clock, Award, Loader2, Share2, Download, Zap } from 'lucide-react';
+import { FileText, Search, Clock, Award, Loader2, Share2, Download, Zap, AlertCircle } from 'lucide-react';
 import { SUBJECTS } from '@/lib/constants';
 import { createClient } from '@/lib/supabase/client';
 import { normalizeSubject } from '@/lib/utils';
@@ -172,6 +172,31 @@ export default function ExamsPage() {
             )}
           </button>
         ))}
+      </div>
+
+      {/* AI Warning & Download Notice */}
+      <div className="p-6 rounded-[2.5rem] bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row items-start gap-4">
+        <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center shrink-0">
+          <AlertCircle className="text-amber-500" size={24} />
+        </div>
+        <div className="space-y-1 flex-1">
+          <h4 className="font-black text-amber-600 text-sm uppercase tracking-widest">FIIRO GAAR AH / IMPORTANT NOTICE</h4>
+          <p className="text-sm font-bold leading-relaxed">
+            Jawaabaha qaar ee halkan ku qoran waxay noqon karaan kuwo khaldan maadaama aan u isticmaalnay AI (caqliga macmalka ah) si aan u soo saarno. 
+          </p>
+          <p className="text-sm text-muted font-medium leading-relaxed">
+            Some answers provided here may be incorrect as they were generated using AI. 
+            You can download the original exam papers using the link below to answer them yourself.
+          </p>
+          <a 
+            href="https://somexams.com/all-exams/federal-exams/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-xl bg-amber-500 text-white text-xs font-black hover:bg-amber-600 transition-colors shadow-lg shadow-amber-500/20"
+          >
+            <Download size={14} /> Download Original Papers
+          </a>
+        </div>
       </div>
 
       {/* Filter & Results Area */}

@@ -128,6 +128,32 @@ export default function ExamDetailPage() {
         <ArrowLeft size={18} /> Back to Exams
       </button>
 
+      {/* AI Warning & Download Notice */}
+      <div className="p-5 rounded-[2rem] bg-amber-500/10 border border-amber-500/20 space-y-3">
+        <div className="flex items-start gap-3">
+          <AlertCircle className="text-amber-500 shrink-0 mt-0.5" size={20} />
+          <div className="space-y-1">
+            <h4 className="font-bold text-amber-500 text-sm">FIIRO GAAR AH / IMPORTANT NOTICE</h4>
+            <p className="text-xs font-medium leading-relaxed">
+              Jawaabaha qaar waxay noqon karaan kuwo khaldan maadaama aan u isticmaalnay AI si aan u soo saarno. 
+              Waxaad kala soo bixi kartaa waraaqaha asalka ah xiriirkan hoose si aad adigu uga jawaabto.
+            </p>
+            <p className="text-xs text-muted font-medium leading-relaxed">
+              Some answers may be incorrect as we used AI to generate them. 
+              You can download the original exam papers using the link below to answer them yourself.
+            </p>
+            <a 
+              href="https://somexams.com/all-exams/federal-exams/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block mt-2 text-xs font-bold text-primary hover:underline"
+            >
+              https://somexams.com/all-exams/federal-exams/
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* Exam Header */}
       <div className="glass-card p-6 border-primary/20 bg-gradient-to-br from-surface to-primary/5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">

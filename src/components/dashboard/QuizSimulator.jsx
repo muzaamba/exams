@@ -22,7 +22,10 @@ export default function QuizSimulator({ examId, onExit }) {
 
   useEffect(() => {
     async function fetchQuestions() {
-      if (!examId || !supabase) return;
+      if (!examId || !supabase) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       try {
         const { data, error } = await supabase
