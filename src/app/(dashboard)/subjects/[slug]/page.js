@@ -201,7 +201,7 @@ export default function SubjectDetailPage() {
               </Card>
             </div>
           )}
-
+          {activeTab === 'Quizzes' && (
             <div className="space-y-8">
               {activeQuizId ? (
                 <QuizSimulator 
