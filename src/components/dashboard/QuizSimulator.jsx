@@ -32,7 +32,6 @@ export default function QuizSimulator({ examId, onExit }) {
           .from('questions')
           .select('*')
           .eq('exam_id', examId)
-          .in('question_type', ['mcq', 'vocabulary', 'grammar'])
           .order('question_number', { ascending: true });
 
         if (error) throw error;

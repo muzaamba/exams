@@ -222,7 +222,7 @@ export default function ExamDetailPage() {
               <div className="flex items-center gap-2 mb-3">
                 <DifficultyBadge difficulty={q.difficulty} />
                 <span className="text-[10px] font-bold text-muted uppercase tracking-widest px-2 py-0.5 bg-surface rounded-full border border-border/50">
-                  {q.question_type.replace('_', ' ')}
+                  {(q.question_type || 'General').replace('_', ' ')}
                 </span>
               </div>
               <p className="text-sm font-semibold leading-relaxed">{q.question_number}. {q.question_text}</p>

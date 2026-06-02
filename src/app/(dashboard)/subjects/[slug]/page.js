@@ -165,7 +165,7 @@ export default function SubjectDetailPage() {
                 <Card className="lg:col-span-2 bg-gradient-to-br from-primary to-indigo-700 text-white p-8 relative overflow-hidden group">
                   <div className="relative z-10 space-y-4">
                     <h3 className="text-3xl font-black font-heading leading-tight">Master {subject.name} with Real Past Papers</h3>
-                    <p className="text-white/80 font-medium max-w-md">We've compiled every Somali National Exam from 2020-2025. Practice them interactively to boost your grade.</p>
+                    <p className="text-white/80 font-medium max-w-md">We&apos;ve compiled every Somali National Exam from 2020-2025. Practice them interactively to boost your grade.</p>
                     <div className="flex gap-4 pt-4">
                       <Button onClick={() => setActiveTab('Quizzes')} className="bg-white text-primary hover:bg-white/90">Take a Quiz</Button>
                       <Button onClick={() => setActiveTab('Exams')} variant="secondary" className="bg-white/10 border-white/20 text-white hover:bg-white/20">Download Papers</Button>

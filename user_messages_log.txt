@@ -1,0 +1,1232 @@
+<USER_REQUEST>
+insert this exam its grade 8 or fasalka 8aaad and also auto run everything   auto allow  {
+  "subject": "AF-SOOMAALI",
+  "grade": "8aad",
+  "year": "2020/2021",
+  "sections": [
+    {
+      "section": "Sheeko - Caqliga Wanaagsan",
+      "questions": [
+        {
+          "id": 1,
+          "question": "Kaafi, waxaa uu billaabay in uu tartiib u socdo markii uu?",
+          "options": {
+            "A": "jidka marayey",
+            "B": "guriga u dhowaaday",
+            "C": "arkayey eedadiis",
+            "D": "la siiyey lacagta"
+          },
+          "answer": "B"
+        },
+        {
+          "id": 2,
+          "question": "Waxaa Kaafi ka codsaday in uu farriin muhiim ah gaarsiiyo eeddadiis?",
+          "options": {
+            "A": "walaalkiis",
+            "B": "aabbihiis",
+            "C": "adeerkiis",
+            "D": "hooyadiis"
+          },
+          "answer": "A"
+        },
+        {
+          "id": 3,
+          "question": "Kaafi wuxuu isu heystay inuu yahay nin?",
+<truncated 7755 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+  "exam": {
+    "subject": "Af-Soomaali",
+    "grade": "Fasalka 8aad",
+    "year": 2020,
+    "country": "Somalia",
+    "sections": [
+      "Naxwaha Af-Soomaaliga",
+      "Erayo",
+      "Sheeko"
+    ]
+  },
+  "questions": [
+    {
+      "question_no": 1,
+      "section": "Naxwe",
+      "question": "Naxwaha Af-Soomaaligu wuxuu u kala baxaa:",
+      "options": {
+        "a": "2 qaybood",
+        "b": "4 qaybood",
+        "c": "3 qaybood",
+        "d": "6 qaybood"
+      },
+      "answer": "c"
+    },
+    {
+      "question_no": 2,
+      "section": "Naxwe",
+      "question": "Erayga tilmaamaya qof ka badan hal qof waa:",
+      "options": {
+        "a": "niman",
+        "b": "nimo",
+        "c": "nimanyaalo",
+        "d": "nin"
+      },
+      "answer": "a"
+    },
+    {
+      "question_no": 3,
+      "section": "Naxwe",
+      "question": "Erayga 'malab' wuxuu ka koobanyahay:",
+      "options": {
+        "a": "1 xubin",
+        "b": "2 xubnood",
+        "c": "3 xubnood",
+        "d": "4 xubnood"
+      },
+<truncated 13987 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+  "subject": "Af-Soomaali",
+  "grade": "Fasalka 8aad",
+  "year": "2022",
+  "questions_and_answers": [
+    {
+      "question_no": 1,
+      "question": "Waxyaabaha kuu caddaynaya qiimaha geelu waa in uu:",
+      "options": {
+        "B": "Adkaysi badan yahay",
+        "T": "Gaadiid inoo yahay",
+        "J": "Qurux badan yahay",
+        "X": "Dhaxal inoo yahay"
+      },
+      "answer": "T. Gaadiid inoo yahay"
+    },
+    {
+      "question_no": 2,
+      "question": "Qofka nabar culusi gaadhay geela la siinayo waxaa loo adeegsadaa erayga:",
+      "options": {
+        "B": "Hal daloolkeed",
+        "T": "Magdhaw",
+        "J": "Kadin",
+        "X": "Dhaymo"
+      },
+      "answer": "T. Magdhaw"
+    },
+    {
+      "question_no": 3,
+      "question": "Arrimaha xaqidda waxaa lagala tashadaa:",
+      "options": {
+        "B": "Oday dhaqameedka",
+        "T": "Aqoonyahanka",
+        "J": "Dhallinyarada",
+        "X": "Culimada"
+      },
+      "answer": "X. Culimada"
+    },
+    {
+      "question_no": 4,
+<truncated 6170 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+  "subject": "Arabic",
+  "grade": "Fasalka 8aad",
+  "year": 2020,
+  "sections": [
+    {
+      "section": "Reading (القراءة)",
+      "questions": [
+        {
+          "question_no": 1,
+          "question": "الغنم له كم نوع؟",
+          "options": ["نوعين", "ثلاثة أنواع", "أربعة أنواع", "ستة أنواع"],
+          "answer": "ثلاثة أنواع"
+        },
+        {
+          "question_no": 2,
+          "question": "الغنم له فوائد منها:",
+          "options": ["اللحم واللبن والسمن", "اللحم والسمن", "اللبن فقط", "الجلد فقط"],
+          "answer": "اللحم واللبن والسمن"
+        },
+        {
+          "question_no": 3,
+          "question": "ذكر الضأن يسمى:",
+          "options": ["التيس", "الكبش", "النعجة", "العنزة"],
+          "answer": "الكبش"
+        },
+        {
+          "question_no": 4,
+<truncated 4623 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+  "exam_year": 2021,
+  "subject": "Arabic Language",
+  "grade": 8,
+  "part_one_mcq": [
+    {
+      "q": "يصيب مرض البلهارسيا",
+      "options": ["الكبد والرئتين", "الدماغ", "الجهاز الهضمي", "الجهاز العصبي"],
+      "answer": "الجهاز الهضمي"
+    },
+    {
+      "q": "ينتشر مرض الملاريا عن طريق",
+      "options": ["الذباب", "الجراد", "البعوض", "الطيور"],
+      "answer": "البعوض"
+    },
+    {
+      "q": "غسل الفواكه قبل أكلها",
+      "options": ["شراء", "تقطيع", "غسل", "تكسير"],
+      "answer": "غسل"
+    },
+    {
+      "q": "في معظم دول العالم قسم...",
+      "options": ["أغلب", "كثير", "بعض", "قليل"],
+      "answer": "أغلب"
+    },
+    {
+      "q": "من أعراض الملاريا الصداع و...",
+      "options": ["الحُمى", "المغص", "الركام", "السعال"],
+<truncated 5596 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+  "exam_year": "2022",
+  "subject": "Arabic Grade 8",
+  "parts": [
+    {
+      "part": "Part 1",
+      "questions": [
+        {"q": "يستيقظ أحمد من النوم في الساعة", "options": ["السابعة صباحا", "السادسة صباحا", "متأخرا", "بعد الاستيقاظ"], "answer": "السابعة صباحا"},
+        {"q": "بعد الاستيقاظ من النوم يذهب أحمد إلى", "options": ["الشارع", "المطبخ", "المسجد", "المدرسة"], "answer": "المسجد"},
+        {"q": "يذهب أحمد إلى المدرسة بواسطة", "options": ["الحافلة", "سيارة أجرة", "سيارة أبيه", "الدابة"], "answer": "الحافلة"},
+        {"q": "في الاستراحة أحمد", "options": ["يلبس", "يستريح", "يتحاور مع أصدقائه", "يراجع دروسه"], "answer": "يتحاور مع أصدقائه"},
+<truncated 4625 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+  "exam_year": 2020,
+  "subject": "Cilmi Bulsho",
+  "class": "Grade 8",
+  "questions": [
+    {
+      "q": "Beerista dhirta waxaa loo yaqaan:",
+      "options": ["Lumeyn", "Falid", "Qurxin", "Dhirayn"],
+      "answer": "Dhirayn"
+    },
+    {
+      "q": "Abul Cabaas Al-safaax waxa uu hogaamiyay dowladdii cabbaasiyiinta xilligii:",
+      "options": ["760 ilaa 780", "770 ilaa 780", "780 ilaa 784", "750 ilaa 754"],
+      "answer": "750 ilaa 754"
+    },
+    {
+      "q": "Daryeelka carrada waa hab lagu ilaaliyo carrada si ay:",
+      "options": ["Nafaqada u luminin", "Geed uga bixin", "Biyaha u ceshanin", "Dhir loogu beerin"],
+      "answer": "Nafaqada u luminin"
+    },
+    {
+      "q": "Dalalka Geeska Afrika waxaa ay ka kooban yihiin:",
+      "options": ["3 dal", "4 dal", "5 dal", "6 dal"],
+      "answer": "5 dal"
+    },
+    {
+      "q": "Wadamada Geeska Afrika waxaa soo gumaystay waddamada:",
+      "options": [
+        "Ingiriiska, Maraykanka iyo Turkiga",
+<truncated 8917 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+  "exam_year": 2022,
+  "subject": "Cilmi Bulsho",
+  "class": "Grade 8",
+  "part_one_mcq": [
+    {"q": "Lakabka sare ee dhulka oo ka samaysan bus iyo dhagxaan waxa loo yaqaan", "options": ["Dhoobo","Carro","Bacaad","Nabaad guur"], "answer": "Bacaad"},
+    {"q": "Dalka Ereteriya waxa uu helay madax banaanidiisa sanadkii", "options": ["1983","1993","1893","1999"], "answer": "1993"},
+    {"q": "Gumaystaha waxaa uu ka midaysan yahay in uu", "options": ["Isku diro bulshada","Horumariyo dhaqaalaha","Midnimada xoojiyo","Dadkooda wax baro"], "answer": "Isku diro bulshada"},
+    {"q": "Gobalka Maqrib waxaa uu leeyahay buuro dhaadheer oo loo yaqaan", "options": ["Goolis","Duurus","Shimbiris","Atlas"], "answer": "Atlas"},
+    {"q": "Madaxweynihii ugu horeeyay ee dalka Aljeeriya", "options": ["Axmad Ben Bella","Maxamed Mascuud","Xabiib Boorqiiba","Ismaaciil Al Ashari"], "answer": "Axmad Ben Bella"},
+<truncated 3785 bytes>
+
+====================
+
+<USER_REQUEST>
+[
+  {"q": "Lakabka sare ee carrada waxa loo yaqaan", "a": "Carro"},
+  {"q": "Dhaqaalaha Jabuuti waxa uu ku tiirsan yahay", "a": "Adeegga"},
+  {"q": "Sababta cirifka waqooyi u qabow yahay", "a": "Dhulbaraha ayuu ka fog yahay"},
+  {"q": "Xaalufinta deegaanka waxa kamid ah", "a": "Dhirta oo la jaro"},
+  {"q": "Beerista dhir cusub waxa loo yaqaan", "a": "Dhireyn"},
+  {"q": "Jabuuti xornimada waxa ay qaadatay", "a": "27 Juun 1977"},
+  {"q": "Madaxweynihii ugu horreeyay Aljeeriya", "a": "Axmed Ben Bella"},
+  {"q": "Lacagta Aljeeriya", "a": "Dinar"},
+  {"q": "Marooko waxa ay ka tirsan tahay", "a": "IGAD ma aha, OPEC ma aha, COMESA sax"},
+  {"q": "Ahraamta waxaa laga helaa", "a": "Masar"},
+  {"q": "Dhulbaraha Soomaaliya waxa uu maraa", "a": "Sanguni"},
+  {"q": "Tunisiy waxa ay ku taal Afrika", "a": "Waqooyi"},
+  {"q": "Qorraxdu waxa ay ka soo baxdaa", "a": "Bariga"},
+  {"q": "Dhulku hal wareeg waxa uu qaataa", "a": "24 saac"},
+  {"q": "Labada dhigood u dhaxaysa masaafada", "a": "69.4 mayl"},
+<truncated 1792 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+"exam": "Somalia Grade 8 English Exam 2022",
+"sections": [
+{
+"section": "Reading Comprehension",
+"questions": [
+{
+"id": 1,
+"question": "Good food is important for our life because it:",
+"options": [
+"gives us health and energy",
+"we must eat clean food",
+"locally available food",
+"fresh food"
+],
+"answer": "gives us health and energy"
+},
+{
+"id": 2,
+"question": "State the names of two vegetables mentioned in the passage.",
+"options": [
+"Onions and papayas",
+"Carrots and olives",
+"Tomatoes and spinach",
+"Garlics and bananas"
+],
+"answer": "Tomatoes and spinach"
+},
+{
+"id": 3,
+"question": "Where can we buy fresh food from?",
+"options": [
+"Markets and farms",
+"Rivers and lakes",
+"Carbohydrates and proteins",
+"Vitamins and minerals"
+],
+"answer": "Markets and farms"
+},
+{
+"id": 4,
+"question": "Which deadly diseases are mentioned when we eat bad food?",
+"options": [
+"Medicine and poison",
+"HIV and AIDS",
+"Cancer and diabetes",
+"Obesity and malnutrition"
+],
+"answer": "Cancer and diabetes"
+},
+{
+"id": 5,
+<truncated 3399 bytes>
+
+====================
+
+<USER_REQUEST>
+"exam": "Somalia Grade 8 English Exam 2021",
+"sections": [
+{
+"section": "Reading Comprehension",
+"questions": [
+{
+"id": 1,
+"question": "Qur'an was revealed in the month of:",
+"options": ["Arafah", "Ramadan", "Sakkah", "Mowlud"],
+"answer": "Ramadan"
+},
+{
+"id": 2,
+"question": "Who must fast during Ramadan?",
+"options": [
+"Every Muslim male or female",
+"Every mature person with healthy mind",
+"The sick and elderly",
+"Pregnant women and travellers"
+],
+"answer": "Every mature person with healthy mind"
+},
+{
+"id": 3,
+"question": "How long does fasting last during the day?",
+"options": [
+"From morning to midday",
+"From sunset to sunrise",
+"From dawn to sunset",
+"From noon to evening"
+],
+"answer": "From dawn to sunset"
+},
+{
+"id": 4,
+"question": "Ramadan is the ___ of the Islamic year",
+"options": ["Ninth month", "Fourth month", "Second month", "First month"],
+"answer": "Ninth month"
+},
+{
+"id": 5,
+"question": "Ramadan is the fourth of the five ___ of Islam",
+<truncated 5033 bytes>
+
+====================
+
+<USER_REQUEST>
+add this reminder on the download page where it says some answers can be error or false we used ai to generate the answers so there maybe some issues but you can download the exams the papers using this link and answer yourself https://somexams.com/all-exams/federal-exams/  also translate the warning text to somali and place where poeple can see clearly for grade8 and form4 both 
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T11:01:59+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\src\components\ui\Button.jsx (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\src\app\globals.css (LANGUAGE_CSS)
+- c:\Users\hp\Downloads\exam\src\components\ui\Card.jsx (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\src\context\ThemeContext.jsx (LANGUAGE_JAVASCRIPT)
+<truncated 137 bytes>
+
+====================
+
+<USER_REQUEST>
+push to github
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T11:03:26+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\supabase\migrations\001_initial_schema.sql (LANGUAGE_UNSPECIFIED)
+- c:\Users\hp\Downloads\exam\src\app\page.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\src\components\home\FeaturedSubjects.jsx (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\src\components\ui\Skeleton.jsx (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\src\components\ui\Button.jsx (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+show it in the subjects page and also there is loading issue fix it 
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T11:07:50+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\src\app\(dashboard)\exams\[id]\page.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\src\app\(dashboard)\exams\page.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+{
+"exam": "Somalia Grade 8 English Exam 2020",
+"sections": [
+{
+"section": "Grammar",
+"questions": [
+{
+"id": 1,
+"question": "I am interested ... playing tennis.",
+"options": ["in", "on", "at", "of"],
+"answer": "in"
+},
+{
+"id": 2,
+"question": "We have not ... for a very long time.",
+"options": ["meeting", "meet", "met", "meat"],
+"answer": "met"
+},
+{
+"id": 3,
+"question": "Did you see the message ... was sent to your email last week?",
+"options": ["where", "which", "who", "whose"],
+"answer": "which"
+},
+{
+"id": 4,
+"question": "Ali ... received a letter from his daughter.",
+"options": ["has been", "has", "have", "have been"],
+"answer": "has"
+},
+{
+"id": 5,
+"question": "Who ... the letter?",
+"options": ["write", "written", "wrote", "writing"],
+"answer": "wrote"
+},
+{
+"id": 6,
+"question": "She ... listening to the teacher.",
+"options": ["are", "were", "am", "is"],
+"answer": "is"
+},
+{
+"id": 7,
+"question": "The visitors have not arrived yet. ...?",
+<truncated 6723 bytes>
+
+====================
+
+<USER_REQUEST>
+Archive Pending error and on the exam page not loading 
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T11:22:44+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\src\app\(dashboard)\exams\[id]\page.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\src\app\(dashboard)\exams\page.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+{
+"exam": "Somalia Grade 8 ICT Exam 2022",
+"sections": [
+{
+"section": "Multiple Choice",
+"questions": [
+{
+"id": 1,
+"question": "Howl kasta oo la qabanaayo waxa ay u baahantahay:",
+"options": ["Tamar", "Shaqo", "Socod", "Biyo"],
+"answer": "Tamar"
+},
+{
+"id": 2,
+"question": "Ka soo saar lidka fayruska:",
+"options": ["Soollar", "Falaash", "Avast", "Danab"],
+"answer": "Avast"
+},
+{
+"id": 3,
+"question": "Astamaha fayruska kombiyuutarka:",
+"options": ["Furmi waayo", "Xawaaraha oo yaraada", "Iska dama", "Dhawaaq bixiya"],
+"answer": "Xawaaraha oo yaraada"
+},
+{
+"id": 4,
+"question": "Qorraxda waxa laga dhaliyaa danab iyadoo la adeegsanayo:",
+"options": ["Koronto", "Soollar", "Dayax", "Kombiyuutar"],
+"answer": "Soollar"
+},
+{
+"id": 5,
+"question": "Bold (qoraal qaro weyn) waxaa lagu sameeyaa:",
+"options": ["I", "U", "B", "S"],
+"answer": "B"
+},
+{
+"id": 6,
+"question": "Mastaraddu dokumentiga waxa ay ku taallaa:",
+"options": ["Kor iyo dhinaca midig", "Hoos iyo bidix", "Kor iyo bidix", "Kor iyo dhexda"],
+<truncated 3527 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+"exam": "Somalia Grade 8 Islamic Studies Exam 2020",
+"sections": [
+{
+"section": "Tafsir",
+"questions": [
+{
+"id": 1,
+"question": "ما يستفاد من سورة المزمل",
+"answer": "قيام الليل أفضل من صلاة النهار"
+},
+{
+"id": 2,
+"question": "سورة المزمل تحث على",
+"answer": "قيام الليل"
+},
+{
+"id": 3,
+"question": "إن في الآخرة ...",
+"answer": "العقاب والثواب"
+},
+{
+"id": 4,
+"question": "الله سيعاقب على",
+"answer": "الذنوب والمعاصي"
+},
+{
+"id": 5,
+"question": "أهوال القيامة يشيب",
+"answer": "الصغار والكبار"
+},
+{
+"id": 6,
+"question": "الراحة مقابل",
+"answer": "التعب والإرهاق"
+},
+{
+"id": 7,
+"question": "من مظاهر الكون",
+"answer": "السماء والأرض والمياه"
+}
+]
+},
+{
+"section": "الحديث",
+"questions": [
+{
+"id": 8,
+"question": "راوي حديث صلة الرحم",
+"answer": "عبد الرحمن بن عوف"
+},
+{
+<truncated 3030 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+"exam": "Somalia Grade 8 Islamic Studies Exam 2021",
+"sections": [
+{
+"section": "Quran and Tajweed",
+"questions": [
+{
+"id": 1,
+"question": "معنى سورة المزمل",
+"answer": "المتلفف بالثوب"
+},
+{
+"id": 2,
+"question": "صلاة الليل أفضل من",
+"answer": "صلاة النهار"
+},
+{
+"id": 3,
+"question": "السمع يعين على",
+"answer": "ضبط الجوارح والكتمان"
+},
+{
+"id": 4,
+"question": "من حروف أقصى الحلق",
+"answer": "الهمزة والهاء"
+},
+{
+"id": 5,
+"question": "سميت سورة الجن بهذا الاسم لأنها",
+"answer": "ذكرت فيها الجن"
+},
+{
+"id": 6,
+"question": "الصراط هو جسر أدق من",
+"answer": "الشعرة"
+}
+]
+},
+{
+"section": "Aqeedah and Belief",
+"questions": [
+{
+"id": 7,
+"question": "اليوم الآخر من أسمائه",
+"answer": "يوم الدين"
+},
+{
+"id": 8,
+"question": "البرزخ هو الفترة بين",
+"answer": "الدنيا والآخرة"
+},
+{
+<truncated 1961 bytes>
+
+====================
+
+<USER_REQUEST>
+{
+"exam": "Somalia Grade 8 Islamic Studies Exam 2022",
+"sections": [
+{
+"section": "Aqeedah and Belief",
+"questions": [
+{
+"id": 1,
+"question": "أبو بكر الصديق من الصحابة",
+"answer": "خليفة رسول الله صلى الله عليه وسلم"
+},
+{
+"id": 2,
+"question": "كلمة 'بنهال' في التجويد هي حكم",
+"answer": "الإقلاب"
+},
+{
+"id": 3,
+"question": "الإدغام في القرآن يكون في",
+"answer": "كلمتين أو أكثر حسب القاعدة"
+},
+{
+"id": 4,
+"question": "من أسماء اليوم الآخر",
+"answer": "يوم الوعيد"
+},
+{
+"id": 5,
+"question": "الصراط هو جسر ممدود على",
+"answer": "جهنم"
+},
+{
+"id": 6,
+"question": "دين الإسلام هو دين",
+"answer": "الرحمة"
+},
+{
+"id": 7,
+"question": "الإيمان بالقدر هو أحد أركان",
+"answer": "الإيمان"
+},
+{
+"id": 8,
+"question": "مراتب الإيمان بالقضاء والقدر",
+<truncated 2955 bytes>
+
+====================
+
+<USER_REQUEST>
+xisaab grade 8 2020 Q1. Ururka soo koobaya dhammaan ku tirsanayaasha ururrada waxa loo yaqaanaa
+Jawaab: Urur guud
+
+Q2. A = {1,2,3,4,5,6,7,8,9}, B = {1,3,4,5,9}. B waa
+Jawaab: {2,6,7,8}
+
+Q3. Hababka loo qoro ururrada waxaa ka mid ah
+Jawaab: Habka tixidda ku tirsanayaasha ururka
+
+Q4. 36 waxa loo qoro jibbaar ahaan
+Jawaab: 6²
+
+Q5. 2³ waa
+Jawaab: 8
+
+Q6. 3³ waa
+Jawaab: 27
+
+Q7. √81 waa
+Jawaab: 9
+
+Q8. 8² waa
+Jawaab: 64
+
+Q9. 12² waa
+Jawaab: 144
+
+Q10. 16² waa
+Jawaab: 256
+
+Q11. 6×6×6×6×6 waa
+Jawaab: 6⁵
+
+Q12. 4×6 waa
+Jawaab: 24
+
+Q13. 20+10 waa
+Jawaab: 30
+
+Q14. 10+20 waa
+Jawaab: 30
+
+Q15. 4×5×5×5 waa
+Jawaab: 4×125 = 500
+
+Q16. Jibbaarada isku salku leeyihiin marka la isku dhufto
+Jawaab: Jibbaarada waa la isku daraa
+
+Q17. Jibbaaro is dul saaran waxa loola jeedaa
+Jawaab: Jibbaar jibbaaran
+
+Q18. √9 waa
+Jawaab: 3
+
+Q19. (23)² waa
+Jawaab: 529
+
+Q20. √7³ (xidid saddex jibbaaran 7) qiyaas ahaan
+Jawaab: 1.91
+
+Q21. Barta A x = ? (graph su’aal)
+Jawaab: 2
+
+Q22. Barta A y = ?
+Jawaab: 3
+
+<truncated 1630 bytes>
+
+====================
+
+<USER_REQUEST>
+Grade 8 xisaab 2022 
+
+1. Ururka soo koobaya dhammaan ku tirsanayaasha ururrada, waxaa lagu magacaabaa:
+   Answer: Urur guud
+
+2. Haddii G = {buug, qalin, mastarad, sabuurad, jeeso}, B = {buug, mastarad, jeeso}. Urur duleedka B waa:
+   Answer: {qalin, sabuurad}
+
+3. To waliba oo aan ahayn (0) muujyeheeduna yahay (0) waxa ay le'eg tahay:
+   Answer: 1
+
+4. Raadi mugga saddex jibbaaranaha:
+   Answer: 729 cm³
+
+5. Qoro qoraalka gaaban 65, tirada 5 waxa loo yaqaan:
+   Answer: Sal
+
+6. Haddii mugga saddex jibbaarane uu yahay 125 m³, dhinaca waa:
+   Answer: 5 m
+
+7. 850000 qormo saynis ahaan:
+   Answer: 8.5 × 10⁵
+
+8. 1 × 10⁴ geed, wadarta:
+   Answer: 1.5 × 10⁴
+
+9. Fududeynta (x + 5)(x − 5):
+   Answer: x² − 25
+
+10. 4x + 2x la isku daro:
+    Answer: 6x
+
+11. a × b × a × b × a waa:
+    Answer: a³b²
+
+12. 6ab ÷ 3b:
+    Answer: 2a
+
+13. Wareegga shaxanka laydiga:
+    Answer: 10x + 6
+
+14. Bedka shaxan:
+    Answer: 8 cm²
+
+15. Bedka saddex jibbaaran:
+    Answer: 315 cm²
+
+16. Bedka dhululubo:
+<truncated 1456 bytes>
+
+====================
+
+<USER_REQUEST>
+Grade 8 xisaab 2021 
+
+1. Haddii b iyo t yihiin tirooyin idil, b + t = t + b xeerkani waa:
+   Answer: hormogalka (commutative law)
+
+2. 4 waxaa lagu magacaabaa:
+   Answer: sal
+
+3. (shaxan 5sm, 6sm) bedka:
+   Answer: 30 sm²
+
+4. Urur maran summad ahaan:
+   Answer: ∅
+
+5. 3² × 3 =
+   Answer: 3³ = 27
+
+6. (10×7)×5 =
+   Answer: 350
+
+7. Kala goynta 5x/2 (su’aal jajab):
+   Answer: x / 2 (qoraal sax ah ma muuqdo si buuxda)
+
+8. √169 =
+   Answer: 13
+
+9. Haddii A={5,6,7} G={1,2,3,4,5,6,7} urur duleed:
+   Answer: {1,2,3,4}
+
+10. 100 =
+    Answer: 10²
+
+11. (4x+y−8) − (2x−4y+6) =
+    Answer: 2x + 5y − 14
+
+12. √(7m + c) (m=2, c=50)
+    Answer: 8
+
+13. 6x + 10, x waa:
+    Answer: doorsoome
+
+14. 5(x+2) =
+    Answer: 5x + 10
+
+15. Bedka shaxanka:
+    Answer: 326 cm² (ku dhow ikhtiyaarka saxda ah)
+
+16. x=5, y=2 → x + 3y =
+    Answer: 11
+
+17. 2x + 3 = 13
+    Answer: x = 5
+
+18. Dhululubo (r=10, h=50, π=3.14)
+    Answer: 3768 cm²
+
+19. (x−5)(x+5) =
+    Answer: x² − 25
+
+20. 25x ÷ x² =
+<truncated 1526 bytes>
+
+====================
+
+<USER_REQUEST>
+Grade 8 Science 2021 
+
+Cudurka duumada waxaa gudbiya kaneecada nooca:
+Answer: Anofalis
+Cudurka jabtada ragga waxa uu kaga dhacaa:
+Answer: Kaadi mareenka
+Sawirka wuxuu muujinayaa:
+Answer: Bacriminta
+Cudur aan ku gudbi karin hawada:
+Answer: Aydhis
+Cudurka waraabowga waxaa lagu xakameyn karaa:
+Answer: Ka hortag sinada iyo isticmaalka daawo
+Habka hawo u beddelayo neef:
+Answer: Uuoi bax (neefsasho)
+Boqolleyda biyaha macaanka ah:
+Answer: 3%
+Xubinta soo saarta unugyada taranka dhaddiga:
+Answer: Ugxan sidaha
+Neisseria gonorrhea waxa ay keentaa:
+Answer: Jabtada
+Muddada uurka bani’aadamka:
+Answer: 9 bilood
+Aan muhiim u ahayn photosynthesis:
+Answer: oksaaydh
+Muddada shinbir ku dul fadhiso ukunta:
+Answer: Ukun dilaacid
+Muddada hooyadu ilmaha siddo:
+Answer: Uur-ku-sid
+Bacriminta raha waxay ka dhacdaa:
+Answer: Dibadda jirkooda
+Cudur qofka ka gudba qof kale:
+Answer: Cudurrada la is qaadsiiyo
+Maaddo ku jirta caleenta:
+Answer: Cagaariso (chlorophyll)
+Dheefsade labaad ee silsiladda cuntada:
+Answer: Rah
+<truncated 1784 bytes>
+
+====================
+
+<USER_REQUEST>
+saynis 2020 1. Maxay geeduhu u baahan yihiin si ay u samaystaan cunto?
+   Jawaab: Biyo, kaarboon laba ogsaaydh, ilayska qorraxda
+
+2. Duumada unugyadee ayey wax yeeshaa?
+   Jawaab: Unugyada beerka
+
+3. Biyaha ugu badan ee dunida waxaa loo isticmaalaa:
+   Jawaab: Waraabka beeraha
+
+4. Midoobidda xawada labka iyo ugxanta dheddigga waxaa loo yaqaanaa:
+   Jawaab: Bacrimin
+
+5. Duumada waxaa gudbiya kaneecada dhedigga ee loo yaqaan:
+   Jawaab: Anoofalis
+
+6. Isku soo ururidda ilma galeenka marka uu wareegga dhamaado waxaa loo yaqaan:
+   Jawaab: Foosha
+
+7. Halbeegga lagu cabbiro hawsha waxaa loo yaqaan:
+   Jawaab: Juul
+
+8. Boqolleyda biyaha macaan ee dunida waa:
+   Jawaab: 3%
+
+9. Cudurka waraabowga waxa uu ku bilawdaa:
+   Jawaab: Boog yar oo agagaarka xubnaha taranka
+
+10. Muddada uur-ku-sidka lo’da waa:
+    Jawaab: Sagaal bilood
+
+11. Kaamirada biindaloolka waxa ay sameysaa humaag:
+    Jawaab: Janjeera
+
+12. Uur-jiifka iyo hooyada waxaa isku xira:
+    Jawaab: Mandheerta
+
+<truncated 2864 bytes>
+
+====================
+
+<USER_REQUEST>
+sAYNIS 2022 GRADE 8 1. Lakabka sare ee dhulka oo ka samaysan bus iyo dhagxaan waxaa loo yaqaan:
+   Jawaab: T. Carro
+
+2. Dalka Ereteriya waxaa uu helay madax banaanidiisa sanadkii:
+   Jawaab: T. 1993
+
+3. Gumaystaha waxaa uu ka midaysan yahay in uu:
+   Jawaab: B. Isku diro bulshada uu gumaysto
+
+4. Gobalka Maqrib waxaa leeyahay buuraha Atlas:
+   Jawaab: X. Atlas
+
+5. Madaxweynihii ugu horeeyay ee Aljeeriya:
+   Jawaab: B. Axmad Ben Bella
+
+6. Lacagta Marooko:
+   Jawaab: T. Dirham
+
+7. Luqada rasmiga ah ee Tuniisiya:
+   Jawaab: J. Faransiis
+
+8. Magaalada Qaahira waxay leedahay minaarado ka badan:
+   Jawaab: B. Kun minaaradood
+
+9. Biyo xireenka Jabal Awliya wuxuu ku yaal:
+   Jawaab: B. Niilka Cad
+
+10. Wareega dhulka:
+    Jawaab: B. 40207.92444 mayl
+
+11. Afayeenka baarlamaanka KAMA MID AHA:
+    Jawaab: B. magacaabo ra’iisul wasaare
+
+12. Humaaga kaamirada biin daloolka ah waa:
+    Jawaab: X. Rogan ama foorana
+
+13. Waraabowga heerka 3aad:
+    Jawaab: J. Maskaxda iyo dareemayaasha
+
+<truncated 2415 bytes>
+
+====================
+
+<USER_REQUEST>
+MAKE THE EXPERIENCE  better when users  inside subjects exam let them choose form4 or grade8 then they can download now user cant choose wich grade he wants and inside exam page can we remove it since we dont need and exams are available inside subjects 
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T12:41:33+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+the grade 8 exams are not just 4
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T12:46:40+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+but i already sent all those 
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T12:47:08+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+continue
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T12:47:40+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from Gemini 3 Flash to Claude Sonnet 4.6 (Thinking). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>
+
+====================
+
+<USER_REQUEST>
+Continue
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T12:48:27+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+i said the all exams of grade 8 i have already sent check it 
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T12:51:34+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+continue
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T12:53:14+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from Claude Sonnet 4.6 (Thinking) to Claude Opus 4.6 (Thinking). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>
+
+====================
+
+<USER_REQUEST>
+continue
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T12:54:38+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from Claude Opus 4.6 (Thinking) to Gemini 3.1 Pro (High). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>
+
+====================
+
+<USER_REQUEST>
+  275 |               )}
+  276 |             </div>
+> 277 |           )}
+      |            ^
+  278 |
+  279 |           {activeTab === 'Exams' && (
+  280 |             <div className="space-y-6">
+Parsing ecmascript source code failed
+    at <unknown> (./src/app/(dashboard)/subjects/[slug]/page.js:277:12)
+Error: Command "npm run build" exited with 1
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T13:04:50+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2020.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\scripts\seedIslamicStudies8_2021.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
+
+====================
+
+<USER_REQUEST>
+Continue
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-16T13:09:12+03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\hp\Downloads\exam\scripts\seedExam.js (LANGUAGE_JAVASCRIPT)
+- c:\Users\hp\Downloads\exam\src\app\(dashboard)\subjects\[slug]\page.js (LANGUAGE_JAVASCRIPT)
+No browser pages are currently open.
+</ADDITIONAL_METADATA>
